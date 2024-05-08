@@ -9,7 +9,7 @@ import { IoLogOut } from "react-icons/io5"
 import { RiUser3Fill } from "react-icons/ri"
 import EditProfileModal from '../ui/EditProfileModal'
 import { IoIosArrowForward } from "react-icons/io" 
-import { authUser } from '@/contants/auth'
+import { authUser } from '@/contants/users'
 
 const SettingsMenu = () => {
   const { changeMenu } = useContext(menuContext) as MenuProvider;
@@ -22,7 +22,7 @@ const SettingsMenu = () => {
   )
 }
 
-const Profile = ({userAuth}:SessionInfo) => {
+const Profile = ({userAuth}:{userAuth: User}) => {
   return (
     <div className="flex items-center gap-4 px-4 py-2">
       <RoundedImage 

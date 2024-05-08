@@ -3,6 +3,8 @@ import "./css/skeleton.css"
 import type { Metadata } from 'next'
 import { Roboto } from 'next/font/google'
 import ThemeProvider from "@/components/providers/ThemeProvider"
+import UsersProvider from "@/components/providers/UsersProvider"
+import MessageProvider from "@/components/providers/MessageProvider"
 
 const roboto = Roboto({ 
   weight: ['400', '500', '700'],
@@ -22,7 +24,11 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={roboto.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          {children}
+          <UsersProvider>
+            <MessageProvider>
+              {children}
+            </MessageProvider>
+          </UsersProvider>
         </ThemeProvider>
       </body>
     </html>

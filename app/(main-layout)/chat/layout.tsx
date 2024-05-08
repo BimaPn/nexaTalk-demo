@@ -19,9 +19,9 @@ export default async function RootLayout({
     <section className='flex sm:gap-4 h-screen p-0 overflow-hidden sm:px-4 sm:py-4'>
         <ChatListProvider>
           <MenuProvider>
-            <StoryListProvider>
+              <StoryListProvider>
                 <MainMenu/>
-            </StoryListProvider>
+              </StoryListProvider>
           </MenuProvider>
           {children}
         </ChatListProvider>

@@ -5,10 +5,8 @@ interface StoryListProvider {
   updateUserStory: (createdAt:string)=>void,
   isContentLoaded: boolean,
   setIsContentLoaded: Dispatch<SetStateAction<boolean>>,
-  addStoryItem: (story:StoryItem) => void
 }
 interface StoryItem {
-  _id: string,
   avatar: string,
   name: string,
   createdAt: string,

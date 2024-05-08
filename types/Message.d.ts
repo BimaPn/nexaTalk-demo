@@ -1,16 +1,15 @@
 interface Message {
   message : string
-  isCurrentUser ?: boolean
-
+  sender: string
+  receiver: string
   className ?:string
 }
 
 interface GeneralMessage {
   id : string
-  date?: string
 }
 interface UserMessage extends Message, GeneralMessage {
-  createdAt : string
+  createdAt : Date 
 }
 
 interface GroupMessage extends Message,UserMessage {

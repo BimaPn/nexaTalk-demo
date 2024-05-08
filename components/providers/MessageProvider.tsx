@@ -1,41 +1,32 @@
 "use client"
-
-import { useState, createContext } from "react"
+import { authUser } from "@/contants/users"
+import { messages as initial } from "@/contants/chat"
+import { useState, createContext, useContext } from "react"
 
 type MessageProvider = {
   messages: (UserMessage|MediaMessage)[]
-  deleteMessage: (messageId:string) => void
-  addMessage: (message: UserMessage | MediaMessage) => void
-  addMessages: (messages: (UserMessage | MediaMessage)[]) => void
+  getUserMessages: (username: string) => UserMessage[]
 }
 
-export const messageContext = createContext<MessageProvider>({
-    messages:[],
-    addMessage: ()=> {},
-    addMessages: ()=> {},
-    deleteMessage: ()=> {}
+export const messageContext = createContext<MessageProvider | null>(null);
 
-});
-
-const MessageProvider = ({children, defaultMessages}:{children:React.ReactNode, defaultMessages?: UserMessage[] }) => {
-  const [messages,setMessages] = useState<(UserMessage|MediaMessage)[]>(defaultMessages ?? []);
+const MessageProvider = ({children}:{children:React.ReactNode}) => {
+  const [messages,setMessages] = useState<UserMessage[]>(initial);
   
-  const addMessage = (message: UserMessage | MediaMessage) => {
-    setMessages(prev => [...prev,message]);
+  const getUserMessages = (username: string) => {
+    return messages.filter((message) =>  ((message.sender === username && message.receiver === authUser.username) ||
+   (message.sender === authUser.username && message.receiver === username)))
   }
-  const addMessages = (messages:(UserMessage | MediaMessage)[]) => {
-    setMessages(prev => [...messages,...prev]);
-  }
-  const deleteMessage = (messageId:string) => {
-    setMessages((prev) => {
-      return prev.filter((item) => item.id !== messageId)
-    })
-  }
+
   return (
-    <messageContext.Provider value={{ messages, deleteMessage, addMessage, addMessages }}>
+    <messageContext.Provider value={{ messages, getUserMessages }}>
     {children}
     </messageContext.Provider>
   )
+}
+
+export const useMessages = () => {
+  return useContext(messageContext) as MessageProvider
 }
 
 export default MessageProvider

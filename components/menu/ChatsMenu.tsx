@@ -15,7 +15,7 @@ import StoriesIcon from '../icons/StoriesIcon'
 import { StoriesMenuTrigger } from './StoriesMenu'
 import StartNewChat from '../StartNewChat'
 import { chatLists } from '@/contants/chat'
-import { authUser } from '@/contants/auth'
+import { authUser } from '@/contants/users'
 
 const ChatsMenu = ({className}:{className ?: string}) => {
   const pathname = usePathname();

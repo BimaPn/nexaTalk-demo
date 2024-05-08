@@ -10,7 +10,7 @@ import InputLabel from "./form/InputLabel"
 import TextArea from "./form/TextArea"
 import InputError from "./form/InputError"
 
-const EditProfileModal = ({userAuth}:SessionInfo) => {
+const EditProfileModal = ({userAuth}:{userAuth:User}) => {
   return (
     <Modal>
       <Trigger 
@@ -28,7 +28,7 @@ type ProfileEdit = {
   avatar:File | null
 }
 
-const FormEditProfile = ({ userAuth }:SessionInfo) => {
+const FormEditProfile = ({ userAuth }:{userAuth: User}) => {
   const { toggleModal } = useContext(modalContext) as ModalProvider;
   const [ formData, setFormData ] = useState<ProfileEdit>({
     name:userAuth.name,
