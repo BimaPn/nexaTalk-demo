@@ -1,15 +1,17 @@
 interface MediaInputBased {
-  value:File[],
-  onChange : (images:File[]) => void,
+  value: Media[],
+  onChange : (images: Media[]) => void,
 }
 
 interface MediaInputContext extends MediaInputBased {
   removeMedia : (index:number) => void, 
-  mediaPreviews ?: string[],
-  setMediaPreviews : Dispatch<SetStateAction<string[]>>
 } 
 
 interface MediaInput extends MediaInputBased {
   children : React.ReactNode,
   className ?: string
+}
+type Media = {
+  type: string
+  src: string
 }

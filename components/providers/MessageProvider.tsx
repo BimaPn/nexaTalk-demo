@@ -6,6 +6,7 @@ import { useState, createContext, useContext } from "react"
 type MessageProvider = {
   messages: (UserMessage|MediaMessage)[]
   getUserMessages: (username: string) => UserMessage[]
+  addMessage: (message: UserMessage) => void
 }
 
 export const messageContext = createContext<MessageProvider | null>(null);
@@ -18,8 +19,12 @@ const MessageProvider = ({children}:{children:React.ReactNode}) => {
    (message.sender === authUser.username && message.receiver === username)))
   }
 
+  const addMessage = (message: UserMessage) => {
+    setMessages((prev) => [...prev, message])
+  }
+
   return (
-    <messageContext.Provider value={{ messages, getUserMessages }}>
+    <messageContext.Provider value={{ messages, getUserMessages, addMessage }}>
     {children}
     </messageContext.Provider>
   )

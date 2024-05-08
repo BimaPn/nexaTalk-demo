@@ -1,5 +1,5 @@
 interface Message {
-  message : string
+  message?: string
   sender: string
   receiver: string
   className ?:string
@@ -9,6 +9,7 @@ interface GeneralMessage {
   id : string
 }
 interface UserMessage extends Message, GeneralMessage {
+  media?: Media[]
   createdAt : Date 
 }
 

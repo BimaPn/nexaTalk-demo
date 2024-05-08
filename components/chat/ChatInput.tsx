@@ -8,14 +8,36 @@ import { MdOutlineKeyboardVoice } from "react-icons/md"
 import TextAreaExpand from "../ui/form/TextAreaExpand"
 import MediaInput, { Previews, Trigger } from "../ui/form/MediaInput"
 import PickEmoji from "../PickEmoji"
+import { authUser } from "@/contants/users"
+import { useMessages } from "../providers/MessageProvider"
 
-const ChatInput = ({setMessage, className}:{setMessage:(message:UserMessage) =>void, className?:string}) => {
+const ChatInput = ({targetUsername, className}:{targetUsername: string, className?:string}) => {
+  const { addMessage } = useMessages()
   const [messageInput,setMessageInput] = useState<string>("");
-  const [media,setMedia] = useState<File[]>([]);
+  const [media,setMedia] = useState<Media[]>([]);
   const submitButton = useRef<HTMLButtonElement>(null);
   
   const handleSubmit = async (e:React.FormEvent) => {
     e.preventDefault();
+    const newMessage: UserMessage = {
+      id: `${Date.now()}-${Math.round(Math.random())}`,
+      createdAt: new Date(),
+      sender: authUser.username,
+      receiver: targetUsername
+    }
+    if(media.length > 0) {
+      newMessage.media = media
+      addMessage(newMessage)
+      console.log(newMessage)
+      delete newMessage.media
+      setMedia([])
+    }
+    if(messageInput.length > 0) {
+      newMessage.message = messageInput
+      console.log(newMessage)
+      addMessage(newMessage)
+      setMessageInput("")
+    }
   }
   const onChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
     e.preventDefault();
