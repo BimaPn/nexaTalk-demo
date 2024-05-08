@@ -1,0 +1,74 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  @apply bg-light dark:bg-dark-dark dark:text-white
+}
+
+.flexCenter{
+  @apply flex justify-center items-center
+}
+.flexBetween{
+  @apply flex justify-between items-center
+}
+.flexColumn{
+  @apply flex flex-col justify-center items-center
+}
+
+/* CUSTOM SCROLLBAR */
+.custom-scrollbar::-webkit-scrollbar-track
+{
+	background-color: transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar
+{
+	width: 8px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb
+{
+  @apply bg-[#E1E5EA] rounded-full  
+}
+
+/* Loading Spinner */
+
+.loading-spinner {
+    animation: loading-bar-spinner 500ms linear infinite;
+}
+
+.loading-spinner .spinner-icon {
+    width: 16px;
+    height: 16px;
+    border:  solid 2px transparent;
+    border-top-color:  #00C8B1 !important;
+    border-left-color: #00C8B1 !important;
+    border-radius: 50%;
+}
+
+@keyframes loading-bar-spinner {
+  0%   { transform: rotate(0deg);   transform: rotate(0deg); }
+  100% { transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+.shadow-bottom-top {
+  box-shadow:  inset 0 -66px 34px -18px white;
+}
+.toggle-transition {
+  transition: transform .3s ease-in-out;
+}
+
+@keyframes bounce {
+    0%, 100% {
+        transform: translateY(-40%);
+        animation-timing-function: cubic-bezier(0.8,0,1,1);
+    }
+    50% {
+        transform: none;
+        animation-timing-function: cubic-bezier(0,0,0.2,1);
+    }
+}
+.custom-animate-bounce {
+    animation: bounce 1s infinite;
+}
