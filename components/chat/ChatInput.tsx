@@ -26,16 +26,11 @@ const ChatInput = ({targetUsername, className}:{targetUsername: string, classNam
       receiver: targetUsername
     }
     if(media.length > 0) {
-      newMessage.media = media
-      addMessage(newMessage)
-      console.log(newMessage)
-      delete newMessage.media
+      addMessage({...newMessage, media})
       setMedia([])
     }
     if(messageInput.length > 0) {
-      newMessage.message = messageInput
-      console.log(newMessage)
-      addMessage(newMessage)
+      addMessage({...newMessage, message: messageInput})
       setMessageInput("")
     }
   }

@@ -5,13 +5,13 @@ import { IoClose } from "react-icons/io5"
 import ReactPlayer from "react-player/lazy"
 
 export type MediaViewerProvider = {
-  media:string | null,
-  setMedia: Dispatch<SetStateAction<string | null>>
+  media: Media | null,
+  setMedia: Dispatch<SetStateAction<Media | null>>
 }
 
 export const mediaViewerContext = createContext<MediaViewerProvider | null>(null) 
 
-const MediaView = ({media,onClose}:{media:string|null,onClose:()=>void}) => {
+const MediaView = ({media,onClose}:{media:Media|null,onClose:()=>void}) => {
   return media && (
     <div onClick={() => onClose()} className="fixed right-0 left-0 top-0 bottom-0 flexCenter bg-black/90 z-[2000] backdrop-blur py-8">
       <div className="absolute top-0 right-0 left-0 flex items-center justify-end px-5 py-4">
@@ -20,24 +20,26 @@ const MediaView = ({media,onClose}:{media:string|null,onClose:()=>void}) => {
         </button>
       </div>  
 
-      {media.includes(".mp4") ? 
+      {media.type === "video" &&
       (
-         <ReactPlayer url={media} className="max-h-full" controls  />
-      ) : (
-      <Image 
-      src={media}
-      width={600}
-      height={600} 
-      alt="image detail" 
-      onClick={(e) => e.stopPropagation()}
-      className="block max-h-full"/>
+         <ReactPlayer url={media.src} className="max-h-full" controls  />
+      )}
+      {media.type === "image" && (
+        <Image 
+        src={media.src}
+        width={600}
+        height={600} 
+        alt="image detail" 
+        onClick={(e) => e.stopPropagation()}
+        className="block max-h-full"
+        />
       )}
 
     </div>
   )
 }  
 const MediaViewerProvider = ({children}:{children:React.ReactNode}) => {
-  const [media,setMedia] = useState<string | null>(null);
+  const [media,setMedia] = useState<Media | null>(null);
   return (
    <mediaViewerContext.Provider value={{ media,setMedia }}>
       {children}

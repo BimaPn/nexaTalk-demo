@@ -27,10 +27,19 @@ const MessageContent = ({
         {messages.map((message, index) => (
           <li key={index}>
             <div className={`w-full flex ${message.sender === authUser.username ? "justify-end":"justify-start"}`}>
-              <UserMessage
-              message={message.message}
-              createdAt={`12.00 PM`}
-              isCurrentUser={message.sender === authUser.username}/>
+              {message.message && (
+                <UserMessage
+                message={message.message}
+                createdAt={`12.00 PM`}
+                isCurrentUser={message.sender === authUser.username}/>
+              )}
+              {message.media && (
+                <MediaMessage 
+                media={message.media}
+                isCurrentUser={message.sender === authUser.username}
+                createdAt='12.00 PM' 
+                />
+              )}
             </div>
           </li>
         ))}

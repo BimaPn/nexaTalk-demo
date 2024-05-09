@@ -1,11 +1,11 @@
+"use client"
 import { MediaViewerProvider, mediaViewerContext } from "@/components/providers/MediaViewerProvider"
 import { getVideoThumbnail } from "@/helpers"
 import Image from "next/image"
 import { useContext, useEffect, useState } from "react"
 import { FaPlay } from "react-icons/fa6"
 
-const MediaMessage = ({media, isCurrentUser, createdAt}:{media:string[],isCurrentUser:boolean,createdAt:string}) => {
-
+const MediaMessage = ({media, isCurrentUser, createdAt}:{media:Media[],isCurrentUser:boolean,createdAt:string}) => {
   return (
     <div className={`w-full flex flex-col ${isCurrentUser ? "items-end":"items-start"}`}>
       <div className={`w-48 sm:w-56 md:w-64 flex flex-col ${isCurrentUser ? "items-start" : "items-end"} gap-[6px]`}>
@@ -16,10 +16,10 @@ const MediaMessage = ({media, isCurrentUser, createdAt}:{media:string[],isCurren
   )
 }
 
-const MediaLayout = ({media}:{media:string[]}) => {
+const MediaLayout = ({media}:{media:Media[]}) => {
   const { setMedia } = useContext(mediaViewerContext) as MediaViewerProvider;
 
-  const showMediaViewer = (e:React.MouseEvent<HTMLButtonElement>,media:string) => {
+  const showMediaViewer = (e:React.MouseEvent<HTMLButtonElement>,media:Media) => {
     e.preventDefault();
     setMedia(media);
   }
@@ -37,10 +37,11 @@ const MediaLayout = ({media}:{media:string[]}) => {
           `}
         onClick={(e) => showMediaViewer(e, content)}
         >
-          {content.includes(".mp4") ? (
-            <VideoThumbnail single={media.length === 1} url={content} />
-          ) : (
-            <MediaView single={media.length === 1} url={content} />
+          {content.type === "video" && (
+            <VideoThumbnail single={media.length === 1} url={content.src} />
+          )}
+          {content.type === "image" && (
+            <MediaView single={media.length === 1} url={content.src} />
           )}
         </button>
       ))}

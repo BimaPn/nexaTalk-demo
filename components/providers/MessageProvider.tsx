@@ -4,7 +4,7 @@ import { messages as initial } from "@/contants/chat"
 import { useState, createContext, useContext } from "react"
 
 type MessageProvider = {
-  messages: (UserMessage|MediaMessage)[]
+  messages: UserMessage[]
   getUserMessages: (username: string) => UserMessage[]
   addMessage: (message: UserMessage) => void
 }
