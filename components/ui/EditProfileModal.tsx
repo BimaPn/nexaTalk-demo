@@ -8,38 +8,32 @@ import AvatarInput from "./form/AvatarInput"
 import TextInput from "./form/TextInput"
 import InputLabel from "./form/InputLabel"
 import TextArea from "./form/TextArea"
-import InputError from "./form/InputError"
+import { useAuth } from "../providers/AuthProvider"
 
 const EditProfileModal = ({userAuth}:{userAuth:User}) => {
   return (
     <Modal>
       <Trigger 
-      className="min-w-[34px] aspect-square flexCenter bg-light dark:bg-dark-netral rounded-lg text-slate-600 dark:text-white hover:text-black">
-        <BiSolidEdit className="text-[19px]" />
+      className="min-w-[30px] aspect-square flexCentert">
+        <BiSolidEdit className="text-[21px] -mt-[1px] dark:text-white hover:text-semiDark dark:hover:text-dark-light" />
       </Trigger> 
-      <FormEditProfile userAuth={userAuth} />
+      <FormEditProfile />
     </Modal>
   )
 }
 
-type ProfileEdit = {
-  name:string,
-  bio:string,
-  avatar:File | null
-}
-
-const FormEditProfile = ({ userAuth }:{userAuth: User}) => {
+const FormEditProfile = () => {
   const { toggleModal } = useContext(modalContext) as ModalProvider;
+  const { auth, updateAuth } = useAuth()
   const [ formData, setFormData ] = useState<ProfileEdit>({
-    name:userAuth.name,
-    bio:userAuth.bio,
+    name:auth.name,
+    bio:auth.bio,
     avatar:null
   });
-  const [errors,setErrors] = useState<any>({});
   const [ disabledButton, setDisabledButton ] = useState<boolean>(true);
 
   useEffect(() => {
-    if(formData.name !== userAuth.name || formData.avatar !== null || formData.bio !== userAuth.bio) {
+    if(formData.name !== auth.name || formData.avatar !== null || formData.bio !== auth.bio) {
       setDisabledButton(false);
     } else {
       setDisabledButton(true);
@@ -48,7 +42,9 @@ const FormEditProfile = ({ userAuth }:{userAuth: User}) => {
 
   const formSubmit = async (e:React.FormEvent) => {
     e.preventDefault();
-      toggleModal();
+    updateAuth(formData)
+    toggleModal()
+    setFormData({name:auth.name,bio:auth.bio,avatar:null})
   }
   const closeForm = () => {
     if(disabledButton) {
@@ -57,7 +53,7 @@ const FormEditProfile = ({ userAuth }:{userAuth: User}) => {
     }
     const shouldLeave = confirm("You have unsaved changes. Are you sure you want to leave the page ?"); 
     if(shouldLeave) {
-      setFormData({name:userAuth.name,bio:userAuth.bio,avatar:null});
+      setFormData({name:auth.name,bio:auth.bio,avatar:null});
       toggleModal();
     }
   }
@@ -73,10 +69,9 @@ const FormEditProfile = ({ userAuth }:{userAuth: User}) => {
         <Body>
           <div className="flex flex-col gap-4 mt-3 mb-7">
             <AvatarInput
-            defaultAvatar={userAuth.avatar}
+            defaultAvatar={auth.avatar}
             onChange={(file) => setFormData({...formData,avatar:file})}
             />
-            <InputError message={errors.message} className="text-center"/>  
           </div>
 
           <div className="px-5 flex flex-col gap-4">
@@ -89,12 +84,11 @@ const FormEditProfile = ({ userAuth }:{userAuth: User}) => {
               required
               />
               <InputLabel forInput="name" value="Name" />
-              <InputError message={errors.name?.message} className="my-1"/>  
             </div>
             <div className="relative opacity-50">
               <TextInput
               id="username"
-              value={userAuth.username}
+              value={auth.username}
               readOnly
               className="text-gray-500 focus:!outline-0"
               />
@@ -103,7 +97,7 @@ const FormEditProfile = ({ userAuth }:{userAuth: User}) => {
             <div className="relative opacity-50">
               <TextInput
               id="email"
-              value={userAuth.email}
+              value={auth.email}
               readOnly
               className="text-gray-500 focus:!outline-0"
               />
@@ -118,7 +112,6 @@ const FormEditProfile = ({ userAuth }:{userAuth: User}) => {
               required
               />
               <InputLabel forInput="bio" value="Bio" textarea />
-              <InputError message={errors.bio?.message} className="my-1"/>  
             </div>
           </div>
         </Body>

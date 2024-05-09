@@ -7,3 +7,9 @@ interface User {
   isOnline: boolean
   joinedAt: string
 }
+
+type ProfileEdit = {
+  name:string,
+  bio:string,
+  avatar:string | null
+}

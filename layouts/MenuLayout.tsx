@@ -16,7 +16,7 @@ export const Navigation = ({children, title, onClose}:{children?:React.ReactNode
           <HiOutlineArrowLeft className="text-[22px]" />
         </button> 
       </div>
-      <span className="w-full block flexCenter font-medium">{title}</span>
+      <span className="w-full block flexCenter text-[17px] font-medium">{title}</span>
       {children}
     </div>
   )

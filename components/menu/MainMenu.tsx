@@ -6,6 +6,7 @@ import SettingsMenu from "./SettingsMenu";
 import { SocketProvider, socketContext } from "../providers/SocketProvider";
 import AppearanceMenu from "./AppearanceMenu";
 import { authUser } from "@/contants/users";
+import ProfileMenu from "./ProfileMenu";
 
 const MainMenu = () => {
   const { currentMenu } = useContext(menuContext) as MenuProviderType;
@@ -14,6 +15,7 @@ const MainMenu = () => {
      {currentMenu === "chatsMenu" && <ChatsMenu />} 
      {currentMenu === "settingsMenu" && <SettingsMenu />} 
      {currentMenu === "appearanceMenu" && <AppearanceMenu />} 
+     {currentMenu === "profileMenu" && <ProfileMenu />} 
     </section>
   )
 }

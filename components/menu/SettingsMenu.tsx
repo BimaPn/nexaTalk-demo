@@ -1,44 +1,19 @@
 import MenuLayout, {Navigation} from '@/layouts/MenuLayout'
-import RoundedImage from '../ui/RoundedImage'
 import { useContext } from 'react'
 import { MenuProvider, menuContext } from '../providers/MenuProvider'
-import { IoIosLock } from "react-icons/io"
 import { RiPaintFill } from "react-icons/ri"
 import LogoutButton from '../ui/form/LogoutButton'
 import { IoLogOut } from "react-icons/io5"
 import { RiUser3Fill } from "react-icons/ri"
-import EditProfileModal from '../ui/EditProfileModal'
 import { IoIosArrowForward } from "react-icons/io" 
-import { authUser } from '@/contants/users'
 
 const SettingsMenu = () => {
   const { changeMenu } = useContext(menuContext) as MenuProvider;
   return (
     <MenuLayout className="overflow-hidden">
       <Navigation title="Settings" onClose={() => changeMenu("chatsMenu")} />
-      <Profile userAuth={authUser}/>
-      <Settings className="mt-4" />
+      <Settings className='mt-2' />
     </MenuLayout>
-  )
-}
-
-const Profile = ({userAuth}:{userAuth: User}) => {
-  return (
-    <div className="flex items-center gap-4 px-4 py-2">
-      <RoundedImage 
-      src={userAuth.avatar}
-      alt="profile picture" 
-      className="!min-w-[46px]"
-      />
-      <div className="w-full flexBetween">
-        <div className='flex flex-col gap-[2.5px] text-black dark:text-white'>
-          <span>{userAuth.name}</span>
-          <span className="text-xs text-gray-600 dark:text-slate-400">{userAuth.username}</span>
-        </div>
-        <EditProfileModal userAuth={userAuth} />
-      </div>
-
-    </div>
   )
 }
 
@@ -49,15 +24,9 @@ const Settings = ({className}:{className?:string}) => {
       <ul className="flex flex-col gap-1 bg-light dark:bg-dark-dark px-2 py-2 rounded-xl">
         <SettingItem 
         icon={<RiUser3Fill className="text-[18px]" />}
-        label="Account"
-        menu="accountMenu"
-        onClick={(menu) => alert(menu)}
-        />
-        <SettingItem 
-        icon={<IoIosLock className="text-[20.5px] -mt-[2px]" />}
-        label="Privacy"
-        menu="privacyMenu"
-        onClick={(menu) => alert(menu)}
+        label="Profile"
+        menu="profileMenu"
+        onClick={(menu) => changeMenu("profileMenu")}
         />
         <SettingItem 
         icon={<RiPaintFill className="text-[19px]" />}

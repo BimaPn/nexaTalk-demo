@@ -3,7 +3,7 @@ import { useRef, useState } from "react"
 import RoundedImage from "../RoundedImage";
 import { FiEdit } from "react-icons/fi"
 
-const AvatarInput = ({defaultAvatar, onChange, className}:{defaultAvatar:string, onChange:(file:File)=>void, className?:string}) => {
+const AvatarInput = ({defaultAvatar, onChange, className}:{defaultAvatar:string, onChange:(image: string)=>void, className?:string}) => {
   const fileInput = useRef<HTMLInputElement>(null);
   const [photoPreview,setPhotoPreview] = useState<string>(defaultAvatar);
   const changePhoto = (e:React.ChangeEvent<HTMLInputElement>) => {
@@ -11,7 +11,7 @@ const AvatarInput = ({defaultAvatar, onChange, className}:{defaultAvatar:string,
       const selectedFile = fileInput.current!.files![0];
       if (selectedFile) {
         const blob = URL.createObjectURL(selectedFile);
-        onChange(selectedFile)
+        onChange(blob)
         setPhotoPreview(blob)
       }
   }

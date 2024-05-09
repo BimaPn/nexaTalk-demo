@@ -11,11 +11,12 @@ import ChatMenuSkeleton from '../skeletons/ChatMenuSkeleton'
 import { BiSolidMessageDetail } from "react-icons/bi"
 import StoriesIcon from '../icons/StoriesIcon'
 import StartNewChat from '../StartNewChat'
-import { authUser } from '@/contants/users'
 import { useChatLists } from '../providers/ChatListProvider'
+import { useAuth } from '../providers/AuthProvider'
 
 const ChatsMenu = ({className}:{className ?: string}) => {
   const pathname = usePathname();
+  const { auth } = useAuth()
   const { searchChatList } = useChatLists()
   const [list, setList] = useState(searchChatList(""))
   const [loaded, setLoaded] = useState(false)
@@ -29,7 +30,7 @@ const ChatsMenu = ({className}:{className ?: string}) => {
   }
   return (  
     <MenuLayout className={`pt-3 pb-5 relative px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
-      <MenuNavbar avatar={authUser.avatar} className="sticky top-0 z-[1400] mb-3 mx-1"/> 
+      <MenuNavbar avatar={auth.avatar} className="sticky top-0 z-[1400] mb-3 mx-1"/> 
       <Search onSearch={onSearch} />
         {true ? (
           <ul className="flex flex-col gap-1 mt-4">
