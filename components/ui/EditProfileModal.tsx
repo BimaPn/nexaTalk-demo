@@ -10,14 +10,14 @@ import InputLabel from "./form/InputLabel"
 import TextArea from "./form/TextArea"
 import { useAuth } from "../providers/AuthProvider"
 
-const EditProfileModal = ({userAuth}:{userAuth:User}) => {
+const EditProfileModal = () => {
   return (
     <Modal>
       <Trigger 
-      className="min-w-[30px] aspect-square flexCentert">
-        <BiSolidEdit className="text-[21px] -mt-[1px] dark:text-white hover:text-semiDark dark:hover:text-dark-light" />
+      className="min-w-[34px] aspect-square flexCenter bg-white dark:bg-dark-netral rounded-lg text-slate-600 dark:text-white hover:text-black">
+        <BiSolidEdit className="text-[19px]" />
       </Trigger> 
-      <FormEditProfile />
+      <FormEditProfile/>
     </Modal>
   )
 }

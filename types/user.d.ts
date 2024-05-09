@@ -6,6 +6,12 @@ interface User {
   avatar: string
   isOnline: boolean
   joinedAt: string
+  friends?: Friend[]
+}
+
+type Friend = {
+  type: "accepted" | "requested" 
+  username: string
 }
 
 type ProfileEdit = {
