@@ -4,6 +4,7 @@ import MediaMessage from '../ui/message/MediaMessage'
 import { readableDate } from '@/lib/converter'
 import Typing from '../ui/Typing'
 import { authUser } from '@/contants/users'
+import { formatDate } from '@/helpers/time'
 
 const MessageContent = ({
     messages, targetUsername 
@@ -11,6 +12,18 @@ const MessageContent = ({
     messages: UserMessage[],
     targetUsername:string
   }) => {
+
+  const messagesContainer = useRef<HTMLDivElement>(null) 
+
+  const scrollToBottom = () => {
+    if (messagesContainer.current) {
+      const element = messagesContainer.current;
+      element.scrollTop = element.scrollHeight;
+    }
+  };
+  useEffect(() => {
+    scrollToBottom()
+  },[messages])
   // const messageContainer = useRef<HTMLDivElement | null>(null);
   // const checkScroll = () => {
   //   messageContainer!.current!.
@@ -22,22 +35,22 @@ const MessageContent = ({
   // },[]);
   //
   return (
-  <div className='w-full h-full overflow-y-auto custom-scrollbar scroll-smooth transition-all'>
-   <ul  className="w-full h-fit overflow-y-auto flex flex-col gap-4 px-3 pt-4">
+  <div ref={messagesContainer} className='w-full h-full overflow-y-auto custom-scrollbar scroll-smooth transition-all'>
+   <ul className="w-full h-fit overflow-y-auto flex flex-col gap-4 px-3 pt-4">
         {messages.map((message, index) => (
           <li key={index}>
             <div className={`w-full flex ${message.sender === authUser.username ? "justify-end":"justify-start"}`}>
               {message.message && (
                 <UserMessage
                 message={message.message}
-                createdAt={`12.00 PM`}
+                createdAt={formatDate(message.createdAt)}
                 isCurrentUser={message.sender === authUser.username}/>
               )}
               {message.media && (
                 <MediaMessage 
                 media={message.media}
                 isCurrentUser={message.sender === authUser.username}
-                createdAt='12.00 PM' 
+                createdAt={formatDate(message.createdAt)}
                 />
               )}
             </div>

@@ -5,6 +5,7 @@ import { Roboto } from 'next/font/google'
 import ThemeProvider from "@/components/providers/ThemeProvider"
 import UsersProvider from "@/components/providers/UsersProvider"
 import MessageProvider from "@/components/providers/MessageProvider"
+import ChatListProvider from "@/components/providers/ChatListProvider"
 
 const roboto = Roboto({ 
   weight: ['400', '500', '700'],
@@ -25,9 +26,11 @@ export default function RootLayout({
       <body className={roboto.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <UsersProvider>
-            <MessageProvider>
-              {children}
-            </MessageProvider>
+            <ChatListProvider>
+              <MessageProvider>
+                {children}
+              </MessageProvider>
+            </ChatListProvider>
           </UsersProvider>
         </ThemeProvider>
       </body>

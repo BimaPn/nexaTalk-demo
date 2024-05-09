@@ -4,7 +4,7 @@ export const chatLists = [
     avatar: "/images/users/bima_pn.jpg",
     name: "Bima PN",
     message: "haha you got me bro",
-    createdAt: "12-10-2024",
+    createdAt: new Date(),
     isOnline:true,
   }
 ]

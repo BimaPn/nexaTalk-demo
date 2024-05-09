@@ -5,7 +5,7 @@ import ChatsMenu from "./ChatsMenu";
 import SettingsMenu from "./SettingsMenu";
 import { SocketProvider, socketContext } from "../providers/SocketProvider";
 import AppearanceMenu from "./AppearanceMenu";
-import { authUser } from "@/contants/auth";
+import { authUser } from "@/contants/users";
 
 const MainMenu = () => {
   const { currentMenu } = useContext(menuContext) as MenuProviderType;

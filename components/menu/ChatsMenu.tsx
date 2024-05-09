@@ -3,37 +3,36 @@ import MenuLayout from '@/layouts/MenuLayout'
 import { usePathname } from "next/navigation"
 import Search from '../ui/Search'
 import ChatItem from "../ui/ChatItem"
-import { useEffect, useContext, useState } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { chatListContext } from '../providers/ChatListProvider'
-import { SocketProvider, socketContext } from '../providers/SocketProvider'
 import ChatMenuDropdown from '../ui/ChatMenuDropdown'
 import { AiOutlineWechat } from "react-icons/ai"
 import ChatMenuSkeleton from '../skeletons/ChatMenuSkeleton'
 import { BiSolidMessageDetail } from "react-icons/bi"
 import StoriesIcon from '../icons/StoriesIcon'
-import { StoriesMenuTrigger } from './StoriesMenu'
 import StartNewChat from '../StartNewChat'
-import { chatLists } from '@/contants/chat'
 import { authUser } from '@/contants/users'
+import { useChatLists } from '../providers/ChatListProvider'
 
 const ChatsMenu = ({className}:{className ?: string}) => {
   const pathname = usePathname();
+  const { chatlists} = useChatLists()
+  const [loaded, setLoaded] = useState(false)
+
+  useEffect(() => {
+    setLoaded(true)
+  },[])
   return (  
     <MenuLayout className={`pt-3 pb-5 relative px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
       <MenuNavbar avatar={authUser.avatar} className="sticky top-0 z-[1400] mb-3 mx-1"/> 
       <Search />
         {true ? (
           <ul className="flex flex-col gap-1 mt-4">
-          {chatLists.map((chat:ChatItem) => (
+          {chatlists.map((chat:ChatItem) => (
             <Link key={chat.username} href={`/chat/${chat.username}`}>
               <ChatItem 
-              name={chat.name}
-              avatar={chat.avatar}
-              createdAt={chat.createdAt}
-              message={chat.message}
-              unread={chat.unread}
-              isOnline={chat.isOnline} />
+              chatItem={chat} 
+              />
             </Link>
           ))}
           </ul>

@@ -1,21 +1,17 @@
 "use client"
-import { createContext,useState } from "react"
+import { createContext,useContext,useState } from "react"
+import { chatLists } from '@/contants/chat'
 
-export const chatListContext = createContext<ChatList | null>(null);
+const chatListContext = createContext<ChatList | null>(null);
 
 const ChatListProvider = ({children}:{children:React.ReactNode}) => {
-  const [chatlists, setChatlists] = useState<ChatItem[]>([]);
-  const [isLoaded, setIsLoaded] = useState<boolean>(false);
+  const [chatlists, setChatlists] = useState<ChatItem[]>(chatLists);
   
   const addChatToList = (chat:ChatItem) => {
-    let isOnline:boolean;
     setChatlists((prev:ChatItem[]) => {
       const newChatlists = chatlists.filter(item => {
-        if(item.username === chat.username) isOnline = item.isOnline;
-        return item.username !== chat.username as string;
+        return item.username !== chat.username;
       });
-      chat.isOnline = isOnline;  
-      if(newChatlists.length <= 0) return [chat];
       return [chat,...newChatlists]
     });
   } 
@@ -28,19 +24,18 @@ const ChatListProvider = ({children}:{children:React.ReactNode}) => {
       });
     });
   }
-  const setOnlineUser = (username:string,isOnline:boolean) => {
-    setChatlists((prev:ChatItem[]) => {
-      return prev.map((item) => {
-        if(item.username === username) item.isOnline = isOnline;
-        return item;
-      });
-    });
-  }
+
   return (
-  <chatListContext.Provider value={{chatlists,setChatlists,addChatToList,clearUnreadCount,setOnlineUser,isLoaded,setIsLoaded}}>
+  <chatListContext.Provider value={{chatlists,setChatlists,addChatToList,clearUnreadCount}}>
   {children}
   </chatListContext.Provider>
   )
 }
+
+export const useChatLists = () => {
+  return useContext(chatListContext) as ChatList
+}
+
+
 
 export default ChatListProvider; 
