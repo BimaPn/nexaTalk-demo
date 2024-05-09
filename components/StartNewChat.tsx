@@ -8,7 +8,7 @@ import Link from 'next/link'
 import { useContext, useEffect, useState } from 'react'
 import NewChat from './ilustrations/NewChat'
 import NotFound from './NotFound'
-import ChatMenuSkeleton from './skeletons/ChatMenuSkeleton'
+import { useUsers } from './providers/UsersProvider'
 
 type UserItem = {
   name:string
@@ -39,15 +39,16 @@ const Contents = () => {
   )
 }
 const ModalContent = () => {
-  const [users, setUsers] = useState<UserItem[]|null>(null);
+  const { searchUsers } = useUsers()
+  const [users, setUsers] = useState<User[] | null>(null);
   const [query, setQuery] = useState<string>("");
-  const [loading, setLoading] = useState<boolean>(false)
 
   useEffect(() => {
     if(query.length <= 0) {
       setUsers(null)
       return
     }
+    setUsers(searchUsers(query))
   },[query])
   return (
     <Content width={450} className='sm:!h-[80%]'>
@@ -67,7 +68,7 @@ const ModalContent = () => {
             <FiSearch className="text-[21px]" />
           </div>
         </div>
-        {(!users && !loading) && (
+        {(!users) && (
           <div className='h-[68%] flexCenter flex-col gap-4'>
             <div className='flexCenter flex-col gap-1'>
             <span className='font-bold text-lg text-dark dark:text-white'>Let's Find Your Bestie !</span>
@@ -76,14 +77,11 @@ const ModalContent = () => {
             <NewChat />
           </div>
         )}
-        {(!loading && users && users?.length <= 0) && (
+        {(users && users?.length <= 0) && (
           <NotFound className='h-[30%]'/>
         )}
 
-        {loading && (
-          <ChatMenuSkeleton count={2}/>
-        )}
-        {(users && users?.length >= 0 && !loading) && (
+        {(users && users?.length >= 0) && (
           <div className='flex flex-col gap-[6px] mt-6'>
             {users.map((user) => (
               <UserItem 

@@ -5,6 +5,7 @@ import { createContext, useContext, useState } from "react"
 type UsersContext = {
   users: User[]
   findUser: (username: string) => User | null
+  searchUsers: (query: string) => User[]
 }
 
 const usersContext = createContext<UsersContext | null>(null)
@@ -17,8 +18,12 @@ const UsersProvider = ({children}:{children: React.ReactNode}) => {
     if(!result) return null
     return result
   }
+  const searchUsers = (query: string) => {
+    const regex = new RegExp(query, 'i'); 
+    return users.filter(user => regex.test(user.name));
+  }
   return (
-    <usersContext.Provider value={{ users, findUser }}>
+    <usersContext.Provider value={{ users, findUser, searchUsers }}>
     {children}
     </usersContext.Provider>
   )

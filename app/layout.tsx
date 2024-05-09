@@ -6,6 +6,7 @@ import ThemeProvider from "@/components/providers/ThemeProvider"
 import UsersProvider from "@/components/providers/UsersProvider"
 import MessageProvider from "@/components/providers/MessageProvider"
 import ChatListProvider from "@/components/providers/ChatListProvider"
+import ProgressBarProvider from "@/components/providers/ProgressBarProvider"
 
 const roboto = Roboto({ 
   weight: ['400', '500', '700'],
@@ -25,13 +26,15 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <body className={roboto.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <UsersProvider>
-            <ChatListProvider>
-              <MessageProvider>
-                {children}
-              </MessageProvider>
-            </ChatListProvider>
-          </UsersProvider>
+          <ProgressBarProvider>
+            <UsersProvider>
+              <ChatListProvider>
+                <MessageProvider>
+                  {children}
+                </MessageProvider>
+              </ChatListProvider>
+            </UsersProvider>
+          </ProgressBarProvider>
         </ThemeProvider>
       </body>
     </html>

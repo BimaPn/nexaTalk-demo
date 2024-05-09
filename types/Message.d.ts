@@ -10,7 +10,7 @@ interface GeneralMessage {
 }
 interface UserMessage extends Message, GeneralMessage {
   media?: Media[]
-  createdAt : Date 
+  createdAt : string 
 }
 
 interface GroupMessage extends Message,UserMessage {

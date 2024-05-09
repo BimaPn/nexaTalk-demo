@@ -4,7 +4,7 @@ import MediaMessage from '../ui/message/MediaMessage'
 import { readableDate } from '@/lib/converter'
 import Typing from '../ui/Typing'
 import { authUser } from '@/contants/users'
-import { formatDate } from '@/helpers/time'
+import { compareDate, dateToTime, formatDate } from '@/helpers/time'
 
 const MessageContent = ({
     messages, targetUsername 
@@ -39,18 +39,24 @@ const MessageContent = ({
    <ul className="w-full h-fit overflow-y-auto flex flex-col gap-4 px-3 pt-4">
         {messages.map((message, index) => (
           <li key={index}>
+           {index === 0 && (
+              <TimeBadge time={formatDate(message.createdAt, true)} />
+            )}
+            {index > 0 && !compareDate(message.createdAt, messages[index-1].createdAt) && (
+              <TimeBadge time={formatDate(message.createdAt, true)} />
+            )}
             <div className={`w-full flex ${message.sender === authUser.username ? "justify-end":"justify-start"}`}>
               {message.message && (
                 <UserMessage
                 message={message.message}
-                createdAt={formatDate(message.createdAt)}
+                createdAt={dateToTime(new Date(message.createdAt))}
                 isCurrentUser={message.sender === authUser.username}/>
               )}
               {message.media && (
                 <MediaMessage 
                 media={message.media}
                 isCurrentUser={message.sender === authUser.username}
-                createdAt={formatDate(message.createdAt)}
+                createdAt={dateToTime(new Date(message.createdAt))}
                 />
               )}
             </div>
@@ -60,6 +66,17 @@ const MessageContent = ({
   </div>
   )
 }
+
+const TimeBadge = ({time}:{time:string}) => {
+  return (
+    <div className="flexCenter mb-1">
+      <div className="bg-white dark:bg-dark-semiDark px-3 py-1 rounded-full text-xs">
+        {time} 
+      </div>
+    </div>  
+  )
+}
+
 
 export default MessageContent
 

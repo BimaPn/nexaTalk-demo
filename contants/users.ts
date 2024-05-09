@@ -17,5 +17,23 @@ export const users: User[] = [
     avatar: '/images/users/bima_pn.jpg',
     isOnline: true,
     joinedAt: "12-12-2022"
-  }
+  },
+  {
+    name: "Clara Ashley",
+    username: 'clara',
+    email: 'clara33@gmail.com',
+    bio: 'I dont know too.',
+    avatar: '/images/users/clara.jpg',
+    isOnline: false,
+    joinedAt: "12-12-2022"
+  },
+  {
+    name: "John Henry",
+    username: 'john_henry',
+    email: 'john_henry@gmail.com',
+    bio: 'I dont know too.',
+    avatar: '/images/users/john.jpg',
+    isOnline: false,
+    joinedAt: "12-12-2022"
+  },
 ]

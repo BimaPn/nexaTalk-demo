@@ -3,8 +3,8 @@ export const chatLists = [
     username: "bimapn",
     avatar: "/images/users/bima_pn.jpg",
     name: "Bima PN",
-    message: "haha you got me bro",
-    createdAt: new Date(),
+    message: "Good bro, u man ?",
+    createdAt: "2024-05-03T11:15:00",
     isOnline:true,
   }
 ]
@@ -12,14 +12,21 @@ export const chatLists = [
 export const messages: UserMessage[] = [
   {
   id: "1",
-  createdAt: new Date(),
+  createdAt: "2024-05-02T11:10:00",
   message : "Sup bro ?", 
   sender: "adonis",
   receiver: "bimapn" 
   },
   {
   id: "2",
-  createdAt: new Date(),
+  createdAt: "2024-05-03T11:10:00",
+  message : "bro ?", 
+  sender: "adonis",
+  receiver: "bimapn" 
+  },
+  {
+  id: "3",
+  createdAt: new Date().toLocaleString(),
   message : "Good bro, u man ?", 
   sender: "bimapn",
   receiver: "adonis"

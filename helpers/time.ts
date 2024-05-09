@@ -1,10 +1,10 @@
-export const formatDate = (date: Date, withoutHours=false) => {
+export const formatDate = (date: string, withoutHours=false) => {
   const currentDate = new Date();
   
   const yesterdayDate = new Date(currentDate);
   yesterdayDate.setDate(currentDate.getDate() - 1);
 
-  const compareDate = date;
+  const compareDate = new Date(date);
 
   if (
     compareDate.getDate() === yesterdayDate.getDate() &&

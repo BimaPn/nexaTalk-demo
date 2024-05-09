@@ -28,7 +28,7 @@ const ChatInput = ({target, className}:{target: User, className?:string}) => {
   const _addMessage = () => {
     const newMessage: UserMessage = {
       id: `${Date.now()}-${Math.round(Math.random())}`,
-      createdAt: new Date(),
+      createdAt: new Date().toLocaleString(),
       sender: authUser.username,
       receiver: target.username 
     }
@@ -47,7 +47,7 @@ const ChatInput = ({target, className}:{target: User, className?:string}) => {
       username: target.username,
       name: target.name,
       avatar: target.avatar,
-      createdAt: new Date(),
+      createdAt: new Date().toLocaleString(),
       media: media.length > 0 ? media[media.length-1] : null,
       message: messageInput.length > 0 ? messageInput : null
     }
