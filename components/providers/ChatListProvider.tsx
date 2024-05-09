@@ -25,8 +25,22 @@ const ChatListProvider = ({children}:{children:React.ReactNode}) => {
     });
   }
 
+  const searchChatList = (query: string) => {
+    const regex = new RegExp(query, 'i'); 
+    return chatlists.filter(chat => {
+      return regex.test(chat.name) || (chat.message && regex.test(chat.message))
+    });
+  }
+
   return (
-  <chatListContext.Provider value={{chatlists,setChatlists,addChatToList,clearUnreadCount}}>
+  <chatListContext.Provider value={{
+    chatlists,
+    setChatlists,
+    addChatToList,
+    clearUnreadCount,
+    searchChatList
+    }}
+    >
   {children}
   </chatListContext.Provider>
   )

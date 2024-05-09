@@ -16,19 +16,24 @@ import { useChatLists } from '../providers/ChatListProvider'
 
 const ChatsMenu = ({className}:{className ?: string}) => {
   const pathname = usePathname();
-  const { chatlists} = useChatLists()
+  const { searchChatList } = useChatLists()
+  const [list, setList] = useState(searchChatList(""))
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     setLoaded(true)
   },[])
+
+  const onSearch = (query: string) => {
+    setList(searchChatList(query))
+  }
   return (  
     <MenuLayout className={`pt-3 pb-5 relative px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
       <MenuNavbar avatar={authUser.avatar} className="sticky top-0 z-[1400] mb-3 mx-1"/> 
-      <Search />
+      <Search onSearch={onSearch} />
         {true ? (
           <ul className="flex flex-col gap-1 mt-4">
-          {chatlists.map((chat:ChatItem) => (
+          {list.map((chat:ChatItem) => (
             <Link key={chat.username} href={`/chat/${chat.username}`}>
               <ChatItem 
               chatItem={chat} 

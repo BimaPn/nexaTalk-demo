@@ -10,8 +10,9 @@ interface ChatItem {
 }
 
 interface ChatList {
-  chatlists : ChatItem[],
-  setChatlists : Dispatch<SetStateAction<ChatItem[]>>,
-  addChatToList : (chat:ChatItem) => void,
-  clearUnreadCount : (targetId:string) => void,
+  chatlists: ChatItem[]
+  setChatlists: Dispatch<SetStateAction<ChatItem[]>>
+  addChatToList: (chat:ChatItem) => void
+  clearUnreadCount: (targetId:string) => void
+  searchChatList: (query: string) => ChatItem[]
 }  

@@ -6,10 +6,25 @@ export const chatLists = [
     message: "Good bro, u man ?",
     createdAt: "2024-05-03T11:15:00",
     isOnline:true,
+  },
+  {
+    name: "Clara Ashley",
+    username: 'clara',
+    avatar: '/images/users/clara.jpg',
+    message: "Hi Adoniss",
+    createdAt: "2024-05-03T10:15:00",
+    isOnline:false,
   }
 ]
 
 export const messages: UserMessage[] = [
+  {
+  id: "4",
+  createdAt: "2024-05-03T10:15:00",
+  message: "Hi Adoniss",
+  sender: "clara",
+  receiver: "adonis"
+  },
   {
   id: "1",
   createdAt: "2024-05-02T11:10:00",
