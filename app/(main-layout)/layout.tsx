@@ -1,3 +1,4 @@
+import AlertMessage from '@/components/AlertMessage'
 import MainLayout from '@/layouts/MainLayout'
 
 export default function RootLayout({
@@ -7,7 +8,9 @@ export default function RootLayout({
 }) {
   return (
   <MainLayout>
-    {children}
+      <AlertMessage> 
+        {children}
+      </AlertMessage>
   </MainLayout>
   )
 }

@@ -36,7 +36,7 @@ const Settings = ({className}:{className?:string}) => {
         />
         <li className="flexBetween py-2 px-1 text-black hover:bg-semiLight dark:text-white dark:hover:bg-dark-semiDark rounded-xl group">
           <LogoutButton className="w-full flex items-center gap-[14px]">
-            <div className="w-9 aspect-square flexCenter rounded-full bg-semiLight dark:bg-dark-netral dark:group-hover:bg-dark-netral group-hover:bg-light">
+            <div className="w-9 aspect-square flexCenter rounded-full bg-semiLight dark:bg-dark-netral dark:group-hover:bg-dark-netral group-hover:bg-white">
               <IoLogOut className="text-[19px] text-slate-600 dark:text-white -mr-[3px]" />
             </div>
             <div>
@@ -59,7 +59,7 @@ const SettingItem = ({icon, label, menu, onClick, className}:{icon:React.ReactNo
     <li className={`flexBetween px-1 py-2 text-black dark:text-white hover:bg-semiLight dark:hover:bg-dark-semiDark rounded-xl ${className} group`}>
       <button onClick={buttonClick} className="w-full flex items-center gap-[14px]">
         <div 
-        className="w-[36px] aspect-square text-slate-600 dark:text-white flexCenter rounded-full bg-semiLight dark:bg-dark-netral dark:group-hover:bg-dark-netral group-hover:bg-light">
+        className="w-[36px] aspect-square text-slate-600 dark:text-white flexCenter rounded-full bg-semiLight dark:bg-dark-netral dark:group-hover:bg-dark-netral group-hover:bg-white">
           {icon}
         </div> 
         <div>

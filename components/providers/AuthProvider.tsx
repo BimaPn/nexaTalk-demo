@@ -25,7 +25,7 @@ const AuthProvider = ({children}:{children: React.ReactNode}) => {
       user.avatar = data.avatar as string
       user.name = data.name
       user.bio = data.bio
-      return user
+      return {...user}
     })
   }
     
@@ -80,7 +80,7 @@ const AuthProvider = ({children}:{children: React.ReactNode}) => {
     if(!isExist) {
       setAuth((prev) => {
         prev.friends!.push({username, type: "requested"})
-        return prev
+        return {...prev}
       })
     }
   }
@@ -88,7 +88,7 @@ const AuthProvider = ({children}:{children: React.ReactNode}) => {
     setAuth((prev) => {
       const friends = prev.friends!.filter((friend) => friend.username !== username)
       prev.friends = friends
-      return prev
+      return {...prev}
     })
   }
 

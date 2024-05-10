@@ -26,7 +26,7 @@ const AddFriendButton = ({ target, className }:{ target:string, className?:strin
       {!status && <FaUserPlus className="text-lg"/>}
       {status === "requested" && <FaUserClock className="text-lg"/>}
       {status === "accepted" && <FaUserCheck className="text-lg"/>}
-      <span className="text-sm font-medium -mb-[2px]">
+      <span className="text-sm font-medium -mb-[3px]">
       {!status && "Request"}
       {status === "requested" && "Sended"}
       {status === "accepted" && "Unfriend"}

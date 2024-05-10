@@ -8,8 +8,8 @@ export type ModalProvider = {
 
 export const modalContext = createContext<ModalProvider | null>(null); 
 
-const Modal = ({children}:{children:React.ReactNode}) => {
-  const [showModal,setShowModal] = useState<boolean>(false);
+const Modal = ({children, defaultValue = false}:{children:React.ReactNode, defaultValue?: boolean}) => {
+  const [showModal,setShowModal] = useState<boolean>(defaultValue);
 
   const toggleModal = () => {
     setShowModal((prev) => !prev);

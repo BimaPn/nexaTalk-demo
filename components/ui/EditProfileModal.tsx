@@ -9,6 +9,8 @@ import TextInput from "./form/TextInput"
 import InputLabel from "./form/InputLabel"
 import TextArea from "./form/TextArea"
 import { useAuth } from "../providers/AuthProvider"
+import { useAlert } from "../AlertMessage"
+import useConfirm from "./Confirm"
 
 const EditProfileModal = () => {
   return (
@@ -25,10 +27,14 @@ const EditProfileModal = () => {
 const FormEditProfile = () => {
   const { toggleModal } = useContext(modalContext) as ModalProvider;
   const { auth, updateAuth } = useAuth()
+  const { setAlert } = useAlert()
+  const [ConfirmDialog, confirm] = useConfirm({
+    label: "Are you sure you want to quit ?"
+  })
   const [ formData, setFormData ] = useState<ProfileEdit>({
     name:auth.name,
     bio:auth.bio,
-    avatar:null
+    avatar:auth.avatar
   });
   const [ disabledButton, setDisabledButton ] = useState<boolean>(true);
 
@@ -42,17 +48,22 @@ const FormEditProfile = () => {
 
   const formSubmit = async (e:React.FormEvent) => {
     e.preventDefault();
+    console.log(formData)
     updateAuth(formData)
+    setAlert({
+       success: true,
+       message: "Profile Updated."
+    }) 
     toggleModal()
     setFormData({name:auth.name,bio:auth.bio,avatar:null})
   }
-  const closeForm = () => {
+  const closeForm = async () => {
     if(disabledButton) {
       toggleModal();
       return;
     }
-    const shouldLeave = confirm("You have unsaved changes. Are you sure you want to leave the page ?"); 
-    if(shouldLeave) {
+    const isTrue = await confirm()
+    if(isTrue) {
       setFormData({name:auth.name,bio:auth.bio,avatar:null});
       toggleModal();
     }
@@ -121,6 +132,7 @@ const FormEditProfile = () => {
           </PrimaryButton>
         </Footer>
       </Content>
+      <ConfirmDialog />
     </form>
   )
 }
