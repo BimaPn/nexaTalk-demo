@@ -7,6 +7,9 @@ type AuthContext = {
   updateAuth: (data: ProfileEdit) => void
   getAuthFriendList: () => UserItem[] | null
   getUserFriendsPreview: () => FriendPreview 
+  checkIsFriend: (username: string) => FriendStatus 
+  requestFriend: (username: string) => void
+  removeFriend: (username: string) => void
 }
 
 const authContext = createContext<AuthContext | null>(null)
@@ -57,8 +60,49 @@ const AuthProvider = ({children}:{children: React.ReactNode}) => {
       }
     })
   }
+  const checkIsFriend = (username: string) => {
+    let status: FriendStatus = null
+    
+    auth.friends!.forEach((friend) => {
+      if(friend.username === username) {
+        if(friend.type === "accepted") {
+          status = "accepted"
+        }
+        if(friend.type === "requested") {
+          status = "requested"
+        }
+      }
+    })
+    return status
+  }
+  const requestFriend = (username: string) => {
+    const isExist = auth.friends!.find((friend) => friend.username === username)
+    if(!isExist) {
+      setAuth((prev) => {
+        prev.friends!.push({username, type: "requested"})
+        return prev
+      })
+    }
+  }
+  const removeFriend = (username: string) => {
+    setAuth((prev) => {
+      const friends = prev.friends!.filter((friend) => friend.username !== username)
+      prev.friends = friends
+      return prev
+    })
+  }
+
   return (
-    <authContext.Provider value={{ auth, updateAuth, getAuthFriendList, getUserFriendsPreview }}> 
+    <authContext.Provider value={{ 
+      auth,
+      updateAuth,
+      getAuthFriendList,
+      getUserFriendsPreview,
+      checkIsFriend,
+      requestFriend,
+      removeFriend
+    }}
+    > 
     {children}
     </authContext.Provider>
   )

@@ -8,30 +8,32 @@ import { useContext } from "react"
 import { FaUserPlus, FaUserXmark } from "react-icons/fa6"
 import { FaUserLargeSlash } from "react-icons/fa6"
 import { readableDate } from "@/lib/converter"
+import AddFriendButton from "../ui/form/AddFriendButton"
 
 const ProfileInfo = ({userTarget}:{userTarget:User}) => {
   const { isOpen,setIsOpen } = useContext(profileDetailContext) as ProfileDetail;
  
   return isOpen && (
     <section className="w-full bg-white dark:bg-dark-semiDark rounded-2xl lg:w-[512px] h-full overflow-auto custom-scrollbar">
-      <div className="aspect-[3/1] bg-dark-netral rounded-t-2xl rounded-b-lg relative mb-10 m-2">
+      <div className="aspect-[3/1] bg-semiLight dark:bg-dark-netral rounded-t-2xl rounded-b-lg relative mb-10 m-2">
         <button
         onClick={() => setIsOpen(false)} 
-        className="w-8 aspect-square flexCenter bg-black/30 absolute top-2 right-2 rounded-full dark:hover:bg-black/40">
+        className="w-8 aspect-square flexCenter bg-white dark:bg-black/30 absolute top-2 right-2 rounded-full dark:hover:bg-black/40">
           <IoMdClose className="text-[19px]"/>
         </button> 
         <div className="absolute -bottom-8 left-2">
-          <RoundedImage src={userTarget.avatar} className="!w-20 border-[6px] dark:border-dark-semiDark" alt={userTarget.name} />
+          <RoundedImage src={userTarget.avatar} className="!w-20 border-[6px] border-white dark:border-dark-semiDark" alt={userTarget.name} />
         </div>
       </div>
 
 
-      <div className="dark:bg-dark-dark px-4 pt-[10px] pb-3 rounded-xl mx-2">
+      <div className="bg-semiLight dark:bg-dark-dark px-4 pt-[10px] pb-3 rounded-xl mx-2">
         <div className="flexBetween border-b dark:border-slate-700 pb-3">
           <div className="w-[80%] flex flex-col">
             <span className="text-[17px] font-bold text-black`">{userTarget.name}</span>
             <span className="text-gray-500 dark:text-slate-400 text-xs">{userTarget.username}</span>
           </div>
+          <AddFriendButton target={userTarget.username}/>
         </div>
 
         <div className="flex flex-col gap-1 mt-3">

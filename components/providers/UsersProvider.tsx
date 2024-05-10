@@ -22,6 +22,7 @@ const UsersProvider = ({children}:{children: React.ReactNode}) => {
     const regex = new RegExp(query, 'i'); 
     return users.filter(user => regex.test(user.name));
   }
+
   return (
     <usersContext.Provider value={{ users, findUser, searchUsers }}>
     {children}

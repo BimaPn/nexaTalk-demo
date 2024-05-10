@@ -26,6 +26,8 @@ type FriendPreview = {
   avatars: string[] | null
 }
 
+type FriendStatus = null | "accepted" | "requested"
+
 type ProfileEdit = {
   name:string,
   bio:string,
