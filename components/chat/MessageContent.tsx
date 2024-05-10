@@ -16,7 +16,7 @@ const MessageContent = ({
   const messagesContainer = useRef<HTMLDivElement>(null) 
 
   const [ConfirmDialog, confirm] = useConfirm({
-    label: "Are you sure you want to quit ?"
+    label: "Are you sure you want to delete this message ?"
   })
   const { deleteMessage } = useMessages()  
 

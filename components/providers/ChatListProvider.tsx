@@ -31,6 +31,12 @@ const ChatListProvider = ({children}:{children:React.ReactNode}) => {
       return regex.test(chat.name) || (chat.message && regex.test(chat.message))
     });
   }
+  const deleteChat = (username: string) => {
+    setChatlists((list) => {
+      const filtered = list.filter((chat) => chat.username !== username)
+      return filtered
+    })
+  }
 
   return (
   <chatListContext.Provider value={{
@@ -38,7 +44,8 @@ const ChatListProvider = ({children}:{children:React.ReactNode}) => {
     setChatlists,
     addChatToList,
     clearUnreadCount,
-    searchChatList
+    searchChatList,
+    deleteChat
     }}
     >
   {children}

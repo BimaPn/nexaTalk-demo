@@ -8,6 +8,7 @@ type MessageProvider = {
   getUserMessages: (username: string) => UserMessage[]
   addMessage: (message: UserMessage) => void
   deleteMessage: (messageId: string) => void
+  deleteAllUserMessages: (username: string) => void
 }
 
 export const messageContext = createContext<MessageProvider | null>(null);
@@ -29,13 +30,21 @@ const MessageProvider = ({children}:{children:React.ReactNode}) => {
       return filtered
     })
   }
+  const deleteAllUserMessages = (username: string) => {
+    setMessages((prev) => {
+      const filtered = prev.filter((message) =>  !(((message.sender === username && message.receiver === authUser.username) ||
+     (message.sender === authUser.username && message.receiver === username))))
+      return filtered 
+    })
+  }
 
   return (
     <messageContext.Provider value={{ 
       messages,
       getUserMessages,
       addMessage,
-      deleteMessage
+      deleteMessage,
+      deleteAllUserMessages
     }}
     >
     {children}

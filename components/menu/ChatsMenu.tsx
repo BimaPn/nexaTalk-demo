@@ -17,13 +17,17 @@ import { useAuth } from '../providers/AuthProvider'
 const ChatsMenu = ({className}:{className ?: string}) => {
   const pathname = usePathname();
   const { auth } = useAuth()
-  const { searchChatList } = useChatLists()
+  const { chatlists, searchChatList } = useChatLists()
   const [list, setList] = useState(searchChatList(""))
   const [loaded, setLoaded] = useState(false)
 
   useEffect(() => {
     setLoaded(true)
   },[])
+
+  useEffect(() => {
+    setList(chatlists)
+  },[chatlists])
 
   const onSearch = (query: string) => {
     setList(searchChatList(query))
@@ -32,7 +36,7 @@ const ChatsMenu = ({className}:{className ?: string}) => {
     <MenuLayout className={`pt-3 pb-5 relative px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
       <MenuNavbar avatar={auth.avatar} className="sticky top-0 z-[1400] mb-3 mx-1"/> 
       <Search onSearch={onSearch} />
-        {true ? (
+        {loaded ? (
           <ul className="flex flex-col gap-1 mt-4">
           {list.map((chat:ChatItem) => (
             <Link key={chat.username} href={`/chat/${chat.username}`}>

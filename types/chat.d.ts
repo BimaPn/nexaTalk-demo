@@ -15,4 +15,5 @@ interface ChatList {
   addChatToList: (chat:ChatItem) => void
   clearUnreadCount: (targetId:string) => void
   searchChatList: (query: string) => ChatItem[]
+  deleteChat: (username: string) => void
 }  
