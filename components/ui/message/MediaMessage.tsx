@@ -1,15 +1,35 @@
 "use client"
+import MessageOption from "@/components/MessageOption"
 import { MediaViewerProvider, mediaViewerContext } from "@/components/providers/MediaViewerProvider"
 import { getVideoThumbnail } from "@/helpers"
 import Image from "next/image"
 import { useContext, useEffect, useState } from "react"
 import { FaPlay } from "react-icons/fa6"
 
-const MediaMessage = ({media, isCurrentUser, createdAt}:{media:Media[],isCurrentUser:boolean,createdAt:string}) => {
+const MediaMessage = ({
+  id,
+  media,
+  isCurrentUser,
+  createdAt,
+  onDelete
+}:{
+  id: string, 
+  media:Media[],
+  isCurrentUser:boolean,
+  createdAt:string,
+  onDelete: () => void
+}) => {
   return (
-    <div className={`w-full flex flex-col ${isCurrentUser ? "items-end":"items-start"}`}>
-      <div className={`w-48 sm:w-56 md:w-64 flex flex-col ${isCurrentUser ? "items-start" : "items-end"} gap-[6px]`}>
+    <div className={`w-full flex flex-col group ${isCurrentUser ? "items-end":"items-start"}`}>
+      <div className={`w-48 sm:w-56 md:w-72 flex flex-col ${isCurrentUser ? "items-start" : "items-end"} gap-[6px]`}>
+        <div className="w-full relative">
+        {isCurrentUser && (
+          <div className="absolute top-1 -left-5 block sm:hidden sm:group-hover:block">
+            <MessageOption messageId={id} onDelete={() => onDelete()} />
+          </div>    
+        )}
         <MediaLayout media={media} />
+        </div>
         <span className="text-[11px] text-semiDark dark:text-slate-400">{createdAt}</span>
       </div>
     </div>

@@ -1,11 +1,31 @@
+import MessageOption from "@/components/MessageOption"
 import Message from "./Message"
 import { HiOutlineDotsVertical } from "react-icons/hi"
 
-const UserMessage = ({message,createdAt,isCurrentUser=false, className}:{message: string, createdAt: string, isCurrentUser: boolean, className?: string}) => {
+const UserMessage = ({
+  id,
+  message,
+  createdAt,
+  isCurrentUser=false,
+  className,
+  onDelete
+}:{
+  id: string,
+  message: string,
+  createdAt: string,
+  isCurrentUser: boolean,
+  className?: string,
+  onDelete: () => void
+}) => {
   return (
     <div className={`w-full flex group ${isCurrentUser ? "justify-end":"justify-start "} ${className}`}>
       <div className={`max-w-[40%] w-fit flex flex-col gap-1 ${isCurrentUser ? "items-start":"items-end"}`}>
         <div className={`w-full relative`}>
+          {isCurrentUser && (
+            <div className="absolute top-[2px] -left-5 block sm:hidden sm:group-hover:block">
+              <MessageOption messageId={id} onDelete={() => onDelete()} />
+            </div>    
+          )}
           <Message 
           message={message}
           isCurrentUser={isCurrentUser}

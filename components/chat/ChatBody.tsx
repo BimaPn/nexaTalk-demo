@@ -10,7 +10,7 @@ type ChatBodyT = {
 const ChatBody = ({userTarget}:ChatBodyT) => { 
   const { getUserMessages } = useMessages()
   return (
-    <div className="h-full sm:h-[91%] bg-light dark:bg-dark-dark flex flex-col overflow-hidden rounded-t-2xl rounded-b-none sm:rounded-2xl m-0 sm:mx-3 relative">
+    <div className="h-full sm:h-[91%] bg-semiLight dark:bg-dark-dark flex flex-col overflow-hidden rounded-t-2xl rounded-b-none sm:rounded-2xl m-0 sm:mx-3 relative">
       <MessageContent 
       messages={getUserMessages(userTarget.username)}
       targetUsername={userTarget.username}

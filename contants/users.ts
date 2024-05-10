@@ -5,7 +5,7 @@ export const authUser: User = {
   bio: 'I dont know',
   avatar: '/images/users/auth.jpg',
   isOnline: true ,
-  joinedAt: "12-12-2022",
+  joinedAt: "11-10-2024",
   friends: [
     {
       type: "accepted",
@@ -31,12 +31,6 @@ export const users: User[] = [
     avatar: '/images/users/bima_pn.jpg',
     isOnline: true,
     joinedAt: "12-12-2022",
-    friends: [
-      {
-        type: "accepted",
-        username: "adonis"
-      },
-    ]
   },
   {
     name: "Clara Ashley",
@@ -45,13 +39,7 @@ export const users: User[] = [
     bio: 'I dont know too.',
     avatar: '/images/users/clara.jpg',
     isOnline: false,
-    joinedAt: "12-12-2022",
-    friends: [
-      {
-        type: "accepted",
-        username: "adonis"
-      },
-    ]
+    joinedAt: "08-11-2023",
   },
   {
     name: "John Henry",
@@ -60,12 +48,24 @@ export const users: User[] = [
     bio: 'I dont know too.',
     avatar: '/images/users/john.jpg',
     isOnline: false,
-    joinedAt: "12-12-2022",
-    friends: [
-      {
-        type: "accepted",
-        username: "adonis"
-      },
-    ]
+    joinedAt: "12-10-2024",
+  },
+  {
+    name: "Jacob Owens",
+    username: 'jacob_owens',
+    email: 'owens_99@gmail.com',
+    bio: 'Capturing moments through my lens 📸 | Chasing light, one click at a time ✨',
+    avatar: '/images/users/jacob_owens.jpg',
+    isOnline: false,
+    joinedAt: "11-11-2024",
+  },
+  {
+    name: "Naura Monroe",
+    username: 'nauramonroe',
+    email: 'naura@gmail.com',
+    bio: 'Passionate about creativity and self-expression through art ✨',
+    avatar: '/images/users/naura_monroe.jpg',
+    isOnline: false,
+    joinedAt: "07-09-2024",
   },
 ]
