@@ -1,10 +1,12 @@
 "use client"
-import { authUser } from "@/contants/users"
+import { authUser, users } from "@/contants/users"
 import { createContext, useContext, useState } from "react"
 
 type AuthContext = {
   auth: User
   updateAuth: (data: ProfileEdit) => void
+  getAuthFriendList: () => UserItem[] | null
+  getUserFriendsPreview: () => FriendPreview 
 }
 
 const authContext = createContext<AuthContext | null>(null)
@@ -23,8 +25,40 @@ const AuthProvider = ({children}:{children: React.ReactNode}) => {
       return user
     })
   }
+    
+  const getUserFriendsPreview = () => {
+    if(!auth.friends || auth.friends.length < 1) {
+      return {
+        count: 0,
+        avatars: null
+      }
+    }
+
+    const avatars = auth.friends.filter((friend) => friend.type === "accepted").slice(0, 4).map((friend) => {
+      const user = users.find((user) => user.username === friend.username) as UserItem
+      return user.avatar
+    })
+    return {
+      count: auth.friends.length,
+      avatars
+    }
+  }
+  const getAuthFriendList = () => {
+    if(!auth.friends) {
+      return null;
+    }
+    return auth.friends.filter((friend) => friend.type === "accepted").map((friend) => {
+      const user = users.find((user) => user.username === friend.username) as UserItem
+      return {
+        name: user?.name,
+        username: user?.username,
+        avatar: user?.avatar,
+        bio: user?.bio
+      }
+    })
+  }
   return (
-    <authContext.Provider value={{ auth, updateAuth }}> 
+    <authContext.Provider value={{ auth, updateAuth, getAuthFriendList, getUserFriendsPreview }}> 
     {children}
     </authContext.Provider>
   )

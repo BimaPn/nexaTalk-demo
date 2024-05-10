@@ -10,13 +10,6 @@ import NewChat from './ilustrations/NewChat'
 import NotFound from './NotFound'
 import { useUsers } from './providers/UsersProvider'
 
-type UserItem = {
-  name:string
-  username:string
-  bio:string
-  avatar:string
-}
-
 const StartNewChat = () => {
   return (
     <Modal>
@@ -98,7 +91,7 @@ const ModalContent = () => {
     </Content>
   )
 }
-const UserItem = ({name, username, bio, avatar}:UserItem) => {
+export const UserItem = ({name, username, bio, avatar}:UserItem) => {
   const { toggleModal } = useContext(modalContext) as ModalProvider;
   return (
     <Link onClick={() => toggleModal()} href={`/chat/${username}`} className="flex items-center gap-[10px] p-2 rounded-xl hover:bg-light dark:hover:bg-dark-netral">

@@ -9,9 +9,21 @@ interface User {
   friends?: Friend[]
 }
 
+type UserItem = {
+  name:string
+  username:string
+  bio:string
+  avatar:string
+}
+
 type Friend = {
   type: "accepted" | "requested" 
   username: string
+}
+
+type FriendPreview = {
+  count: number
+  avatars: string[] | null
 }
 
 type ProfileEdit = {

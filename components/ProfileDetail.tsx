@@ -4,6 +4,8 @@ import { useAuth } from "./providers/AuthProvider"
 import RoundedImage from "./ui/RoundedImage"
 import EditProfileModal from "./ui/EditProfileModal"
 import { HiUser, HiUsers } from "react-icons/hi"
+import { IoIosArrowForward } from "react-icons/io" 
+import FriendList from "./FriendList"
 
 const ProfileDetail = () => {
   const { auth } = useAuth()
@@ -38,19 +40,37 @@ const ProfileDetail = () => {
           </div>
         </div>
       </div>
+      <Friends />
+    </section>
+  )
+}
 
-      <div className="bg-light dark:bg-dark-dark px-4 pt-[10px] pb-3 rounded-xl mx-2 mt-3">
-        <div className="flex items-center gap-1">
+const Friends = () => {
+  const { getUserFriendsPreview } = useAuth()
+  const preview = getUserFriendsPreview()
+  return (
+    <FriendList className="w-full">
+      <div className="bg-light dark:bg-dark-dark px-4 py-3 rounded-xl mx-2 mt-3 flexBetween">
+        <div className="flex items-center gap-2">
           <HiUsers className="text-xl" />
-          <div className="flex items-center gap-1 text-sm">
-            <span>Friends</span>
-            <span className="text-xs">(12)</span>
+          <div className="flex items-center gap-1 text-sm -mb-1">
+            <span className="font-medium">Friends</span>
+            <span className="text-xs">({preview.count})</span>
           </div>
         </div>
 
+        <div className="flex items-center gap-5">
+          <div className="flex items-center gap-2">
+          {preview.avatars && preview.avatars.map((image) => (
+          <RoundedImage src={image} alt={image} className="!w-7 -mr-4" key={image} />
+          ))}
+          </div>
+          <div>
+          <IoIosArrowForward className="text-[15px]" />
+          </div>
+        </div>
       </div>
-
-    </section>
+    </FriendList>
   )
 }
 

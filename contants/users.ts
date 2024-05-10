@@ -15,6 +15,10 @@ export const authUser: User = {
       type: "accepted",
       username: "clara"
     },
+    {
+      type: "accepted",
+      username: "john_henry"
+    },
   ]
 }
 
@@ -56,6 +60,12 @@ export const users: User[] = [
     bio: 'I dont know too.',
     avatar: '/images/users/john.jpg',
     isOnline: false,
-    joinedAt: "12-12-2022"
+    joinedAt: "12-12-2022",
+    friends: [
+      {
+        type: "accepted",
+        username: "adonis"
+      },
+    ]
   },
 ]
