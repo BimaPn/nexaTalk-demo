@@ -1,5 +1,7 @@
 import { formatDate } from "@/helpers/time"
 import RoundedImage from "./RoundedImage"
+import { MdOutlineInsertPhoto } from "react-icons/md"
+import { MdOutlineVideocam } from "react-icons/md"
 
 const ChatItem = ({chatItem}:{chatItem:ChatItem}) => {
   return (
@@ -14,10 +16,21 @@ const ChatItem = ({chatItem}:{chatItem:ChatItem}) => {
           <span className={`w-[85%] text-[15px] text-semiDark dark:text-slate-400 line-clamp-1  ${chatItem.unread ? "font-bold":"font-normal"}`}>
             {chatItem.message ?? null}
             {(chatItem.media && chatItem.media.type === "image") && (
-              <span>Images</span>
+              <div className="flex items-center gap-1">
+                <MdOutlineInsertPhoto className="text-[17px]" />
+                <div className="-mb-[2px]">
+                  <span>Image</span>
+                </div>
+              </div>
+
             )}
             {(chatItem.media && chatItem.media.type === "video") && (
-              <span>Video</span>
+              <div className="flex items-center gap-1">
+                <MdOutlineVideocam className="text-[20px]"/>
+                <div className="">
+                  <span>Video</span>
+                </div>
+              </div>
             )}
           </span>
           {chatItem.unread && (

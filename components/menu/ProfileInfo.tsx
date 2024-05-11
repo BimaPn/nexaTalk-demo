@@ -12,6 +12,7 @@ import AddFriendButton from "../ui/form/AddFriendButton"
 import MediaDetail from "../MediaDetail"
 import { useMessages } from "../providers/MessageProvider"
 import VideoThumbnail from "../ui/VideoThumbnail"
+import { MdHideImage } from "react-icons/md"
 
 const ProfileInfo = ({userTarget}:{userTarget:User}) => {
   const { isOpen,setIsOpen } = useContext(profileDetailContext) as ProfileDetail;
@@ -85,6 +86,14 @@ const MediaPreview = ({username}:{username: string}) => {
             </div>
           ))}
         </div>
+        {!preview && (
+          <div className="w-full flexCenter -mt-8 text-gray-500 dark:text-white">
+            <div className="flexCenter flex-col gap-1">
+              <MdHideImage className="text-5xl" />
+              <span className="text-sm font-medium">Not found</span>
+            </div> 
+          </div>
+        )}
       </div>
     </MediaDetail>
   )

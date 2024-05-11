@@ -53,8 +53,7 @@ const ChatHeader = ({username,avatar,name,isOnline}:ChatHeaderT) => {
             className="!w-10"/> 
           </div>
           <div className="flex flex-col leading-5">
-            <span className="text-black text-[15px] sm:text-base dark:text-white">{name}</span>
-            {/*<span className="w-full text-[13px] text-primary">Typing....</span>*/}
+            <span onClick={openProfileInfo} className="text-black text-[15px] sm:text-base dark:text-white cursor-pointer">{name}</span>
             {isOnline ? (
               <span className="text-[12px] text-netral dark:text-slate-400">Online</span>
             ) : null}
