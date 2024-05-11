@@ -23,3 +23,8 @@ interface MediaMessage extends GeneralMessage {
   createdAt : string,
   isCurrentUser : boolean
 }
+
+type MediaPreview = {
+  count: number
+  media: Media[]
+}

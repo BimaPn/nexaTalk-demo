@@ -33,7 +33,7 @@ const ChatsMenu = ({className}:{className ?: string}) => {
     setList(searchChatList(query))
   }
   return (  
-    <MenuLayout className={`pt-3 pb-5 relative px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
+    <MenuLayout className={`pt-3 pb-5 relative z-[0] px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
       <MenuNavbar avatar={auth.avatar} className="sticky top-0 z-[1400] mb-3 mx-1"/> 
       <Search onSearch={onSearch} />
         {loaded ? (

@@ -9,6 +9,8 @@ type MessageProvider = {
   addMessage: (message: UserMessage) => void
   deleteMessage: (messageId: string) => void
   deleteAllUserMessages: (username: string) => void
+  getUserMedia: (username: string) => UserMessage[] 
+  getUserMediaPreview: (username: string) => MediaPreview | null
 }
 
 export const messageContext = createContext<MessageProvider | null>(null);
@@ -38,13 +40,49 @@ const MessageProvider = ({children}:{children:React.ReactNode}) => {
     })
   }
 
+  const getUserMediaPreview = (username: string) => {
+    const media = messages.filter((message) =>  (((message.sender === username && message.receiver === authUser.username) ||
+    (message.sender === authUser.username && message.receiver === username))) && message.media)
+
+    if(media.length > 0) {
+      const result: Media[] = [] 
+      let stopLoop = false
+
+      media.forEach((item) => {
+        if(stopLoop) {
+          return;
+        }
+        item.media!.forEach((media) => {
+          if(result.length >= 4) {
+            stopLoop = true
+            return
+          }
+          result.push(media)
+        })
+      })
+
+      return {
+        count: media.length,
+        media: result 
+      }
+    }
+    return null
+  }
+
+  const getUserMedia = (username: string) => {
+    return messages.filter((message) =>  (((message.sender === username && message.receiver === authUser.username) ||
+   (message.sender === authUser.username && message.receiver === username))) && message.media)
+  }
+
   return (
     <messageContext.Provider value={{ 
       messages,
       getUserMessages,
       addMessage,
       deleteMessage,
-      deleteAllUserMessages
+      deleteAllUserMessages,
+      getUserMedia,
+      getUserMediaPreview
     }}
     >
     {children}

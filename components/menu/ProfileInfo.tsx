@@ -4,11 +4,14 @@ import RoundedImage from '@/components/ui/RoundedImage'
 import { IoIosArrowForward } from "react-icons/io"
 import Link from 'next/link'
 import { profileDetailContext } from "../providers/ProfileDetailProvider"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { FaUserPlus, FaUserXmark } from "react-icons/fa6"
 import { FaUserLargeSlash } from "react-icons/fa6"
 import { readableDate } from "@/lib/converter"
 import AddFriendButton from "../ui/form/AddFriendButton"
+import MediaDetail from "../MediaDetail"
+import { useMessages } from "../providers/MessageProvider"
+import VideoThumbnail from "../ui/VideoThumbnail"
 
 const ProfileInfo = ({userTarget}:{userTarget:User}) => {
   const { isOpen,setIsOpen } = useContext(profileDetailContext) as ProfileDetail;
@@ -36,35 +39,54 @@ const ProfileInfo = ({userTarget}:{userTarget:User}) => {
           <AddFriendButton target={userTarget.username}/>
         </div>
 
-        <div className="flex flex-col gap-1 mt-3">
+        <div className="flex flex-col gap-[10px] mt-3">
           <div className="flex flex-col gap-[2px]">
-            <span className="text-gray-500 dark:text-slate-400 text-xs font-bold">Bio</span>
+            <span className="text-gray-500 dark:text-white text-xs font-medium">Bio</span>
             <p className="text-sm">{userTarget.bio}</p>
           </div>
           <div className="flex flex-col gap-1">
-            <span className="text-gray-500 dark:text-slate-400 text-xs font-bold">Joined Since</span>
+            <span className="text-gray-500 dark:text-white text-xs font-medium">Joined Since</span>
             <p className="text-sm">{readableDate(userTarget.joinedAt)}</p>
           </div>
         </div>
       </div>
-
+        <MediaPreview username={userTarget.username} />
     </section>
   )
 }
 
-const MediaPreview = ({targetId}:{targetId:string}) => {
+const MediaPreview = ({username}:{username: string}) => {
+  const { getUserMediaPreview } = useMessages()
+  const [preview, setPreview] = useState(getUserMediaPreview(username))
   return (
-    <div className='dark:bg-dark-dark flex flex-col gap-2 px-4 py-3 rounded-xl mt-3 mx-2'>
-      <span className="text-gray-500 dark:text-slate-400 text-xs font-bold">Media</span>
-      <div className="flex items-center gap-2">
-        {['1','2','3'].map((item) => (
-          <RoundedImage key={item} src={`/images/people/${item}.jpg`} alt={item} className="!w-1/4 !rounded-lg"/>
-        ))}
-        <button className="w-1/4 aspect-square flexCenter bg-black/20 rounded-lg dark:hover:bg-black/40">
-          <IoIosArrowForward className="text-3xl" />
-        </button> 
+    <MediaDetail username={username} className="w-full"> 
+      <div className='bg-semiLight dark:bg-dark-dark flex flex-col gap-3 px-4 py-3 rounded-xl mt-3 mx-2'>
+        <div className="flexBetween">
+          <span className="text-dark dark:text-white text-sm font-medium">Media</span>
+          <div className="w-5 aspect-square flexCenter rounded-full bg-white dark:bg-dark-semiDark">
+            <IoIosArrowForward className="text-[12px]" />
+          </div>
+        </div>
+        
+        <div className="flex items-center gap-[6px]">
+          {preview && preview.media.map((media, index) => ( 
+            <div key={index} className="w-1/4">
+              {media.type === "video" && (
+                <VideoThumbnail url={media.src} />
+              )}
+              {media.type === "image" && (
+                <RoundedImage 
+                src={media.src}
+                
+                className={`!w-full !rounded-xl`}
+                alt="video"
+                />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
+    </MediaDetail>
   )
 }
 

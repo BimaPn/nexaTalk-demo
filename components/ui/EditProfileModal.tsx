@@ -16,7 +16,7 @@ const EditProfileModal = () => {
   return (
     <Modal>
       <Trigger 
-      className="min-w-[34px] aspect-square flexCenter bg-white dark:bg-dark-netral rounded-lg text-slate-600 dark:text-white hover:text-black">
+      className="min-w-[34px] aspect-square flexCenter bg-blue-200 text-blue-600 dark:bg-dark-netral rounded-lg dark:text-white hover:text-black">
         <BiSolidEdit className="text-[19px]" />
       </Trigger> 
       <FormEditProfile/>

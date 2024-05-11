@@ -22,7 +22,7 @@ const AddFriendButton = ({ target, className }:{ target:string, className?:strin
   return (
     <button 
     onClick={sendRequest}
-    className={`px-3 flexCenter gap-[6px] bg-white dark:bg-dark-netral py-[7px] rounded-lg dark:hover:bg-dark-semiDark ${className}`}>
+    className={`px-3 flexCenter gap-[6px] bg-blue-200 text-blue-600 dark:text-white dark:bg-dark-netral py-[7px] rounded-lg dark:hover:bg-dark-semiDark ${className}`}>
       {!status && <FaUserPlus className="text-lg"/>}
       {status === "requested" && <FaUserClock className="text-lg"/>}
       {status === "accepted" && <FaUserCheck className="text-lg"/>}
