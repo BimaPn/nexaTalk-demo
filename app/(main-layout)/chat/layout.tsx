@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import MainMenu from '@/components/menu/MainMenu'
 import MenuProvider from '@/components/providers/MenuProvider'
-import StoryListProvider from '@/components/providers/StoryListProvider'
+import StoriesProvider from '@/components/providers/StoriesProvider'
 
 export const metadata: Metadata = {
   title: 'Chat',
@@ -16,9 +16,9 @@ export default async function RootLayout({
   return (
     <section className='flex sm:gap-4 h-screen p-0 overflow-hidden sm:px-4 sm:py-4'>
       <MenuProvider>
-          <StoryListProvider>
+          <StoriesProvider>
             <MainMenu/>
-          </StoryListProvider>
+          </StoriesProvider>
       </MenuProvider>
       {children}
     </section>

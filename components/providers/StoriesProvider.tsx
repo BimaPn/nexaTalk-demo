@@ -1,15 +1,12 @@
 "use client"
+import { stories as initial } from "@/contants/story";
 import { authUser } from "@/contants/users";
-import { createContext, useState } from "react"
+import { createContext, useContext, useState } from "react"
 
-export const storyListContext = createContext<StoryListProvider | null>(null);
+export const storiesContext = createContext<StoriesContext | null>(null);
 
-type UserInfo = {
-  id: string,
-  avatar: string
-}
-const StoryListProvider = ({children}:{children:React.ReactNode}) => {
-  const [stories, setStories] = useState<StoryItem[]>([]);
+const StoriesProvider = ({children}:{children:React.ReactNode}) => {
+  const [stories, setStories] = useState<StoryViewProperties[]>(initial);
   const [userStory, setUserStory] = useState<StoryItem>({
     avatar: authUser.avatar,
     name: "My story",
@@ -28,10 +25,20 @@ const StoryListProvider = ({children}:{children:React.ReactNode}) => {
     setUserStory({...userStory, createdAt});
   }
   return (
-    <storyListContext.Provider value={{ stories, setStories, isContentLoaded, setIsContentLoaded, userStory, updateUserStory }}>
+    <storiesContext.Provider value={{
+      stories,
+      isContentLoaded,
+      setIsContentLoaded,
+      userStory, 
+      updateUserStory
+      }}>
     {children}
-    </storyListContext.Provider>
+    </storiesContext.Provider>
   )
 }
 
-export default StoryListProvider
+export const useStories = () => {
+  return useContext(storiesContext) as StoriesContext
+}
+
+export default StoriesProvider 

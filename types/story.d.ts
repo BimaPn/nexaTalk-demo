@@ -1,6 +1,5 @@
-interface StoryListProvider {
-  stories: StoryItem[],
-  setStories: Dispatch<SetStateAction<StoryItem[]>>,
+interface StoriesContext {
+  stories: StoryViewProperties[],
   userStory: StoryItem,
   updateUserStory: (createdAt:string)=>void,
   isContentLoaded: boolean,
@@ -18,15 +17,12 @@ interface StoryViewer {
   setIspaused: Dispatch<SetStateAction<boolean>>,
   duration: number,
   setDuration: Dispatch<SetStateAction<number>>,
-  seenStories: boolean[]|null,
-  setSeenStories: Dispatch<SetStateAction<boolean[]|null>>
 }
 interface StoryViewProperties {
-  authorId: string,
+  username: string,
   name: string,
   avatar: string,
   contents: StoryContent[],
-  seenStories : boolean[] | null,
   position: number
 }
 interface StoryContent {

@@ -4,11 +4,10 @@ import { MenuProvider, menuContext } from "../providers/MenuProvider"
 import RoundedImage from "../ui/RoundedImage"
 import { TbCameraPlus } from "react-icons/tb"
 import AddStory from "../AddStory"
-import { storyListContext } from "../providers/StoryListProvider"
 import StoryViewer, { storyViewerContext } from "../StoryViewer"
 import StoryListSkeleton from "../skeletons/StoryListSkeleton"
-import ApiClient from "@/app/api/axios/ApiClient"
 import { dateToTime } from "@/lib/converter"
+import { useStories } from "../providers/StoriesProvider"
 
 const StoriesMenu = () => {
   const { changeMenu } = useContext(menuContext) as MenuProvider;
@@ -19,46 +18,39 @@ const StoriesMenu = () => {
           <AddStory /> 
         </div>
       </Navigation>
-      <StoryItemLayout />
+
+      <StoryViewer onClose={() => console.log("haha")}> 
+        <StoryItemLayout />
+      </StoryViewer>
     </MenuLayout>
   )
 }
 
 const StoryItemLayout = () => {
-  const { stories, setStories, userStory, updateUserStory, isContentLoaded, setIsContentLoaded } = useContext(storyListContext) as StoryListProvider;
-  useEffect(() => {
-    if(!isContentLoaded) {
-      ApiClient.get(`stories/friends-last-story/get`)
-      .then((res) => {
-        const _userStory = res.data.userStory;
-        if(_userStory) {
-          updateUserStory(_userStory);
-        }
-        setStories(res.data.stories)
-        setIsContentLoaded(true);
-      })
-      .catch((err) => {
-        console.error(err);
-      });
-    }
+  const { stories, userStory, updateUserStory, isContentLoaded, setIsContentLoaded } = useStories()
+  const { setStoryViewProperties } = useContext(storyViewerContext) as StoryViewer;
 
-  },[]);
-  const updateStoryItem = (id: string, hasSeen: boolean) => {
-    setStories((prevStories: StoryItem[]) => {
-      return prevStories.map((story) => {
-        if(story._id == id) {
-          story.hasSeen = hasSeen;
-        }
-        return story;
-      });
-    });
+  useEffect(() => {
+    setIsContentLoaded(true)
+  },[])
+
+  const viewContent = async (storyView: StoryViewProperties) => {
+    setStoryViewProperties(storyView);
   }
+  // const updateStoryItem = (id: string, hasSeen: boolean) => {
+  //   setStories((prevStories: StoryItem[]) => {
+  //     return prevStories.map((story) => {
+  //       if(story._id == id) {
+  //         story.hasSeen = hasSeen;
+  //       }
+  //       return story;
+  //     });
+  //   });
+  // }
   return (
-    <StoryViewer onClose={updateStoryItem}>
       <div className="px-2 mb-2">
         {!isContentLoaded ? <StoryListSkeleton /> : (
           <StoryItem
-          _id={userStory._id}
           avatar={userStory.avatar}
           name={userStory.name}
           createdAt={userStory.createdAt}
@@ -70,49 +62,33 @@ const StoryItemLayout = () => {
           <ul className="flex flex-col gap-[2px]">
             {!isContentLoaded && <StoryListSkeleton count={4} />}
             {(isContentLoaded && stories.length != 0) && 
-              stories.map((item) => (
-                <li key={item._id}>
+              stories.map((item, index) => (
+                <li key={index}>
                   <StoryItem 
-                  _id={item._id}
                   avatar={item.avatar}
                   name={item.name}
-                  createdAt={dateToTime(item.createdAt)}
-                  hasSeen={item.hasSeen} />
+                  createdAt={dateToTime(item.contents[item.contents.length-1].createdAt)}
+                  hasSeen={(item.contents.length - 1) === item.position}
+                  onClick={() => viewContent(item)}
+                  />
                 </li>
               ))
             }
           </ul>
         </div>
       </div>
-    </StoryViewer>
   )
 }
 
-const StoryItem = ({_id, avatar, name, createdAt, hasSeen=false,disableButton=false}:StoryItem & {disableButton?:boolean}) => {
-  const { setStoryViewProperties } = useContext(storyViewerContext) as StoryViewer;
-  const viewContent = async (e:React.MouseEvent<HTMLButtonElement>) => {
+const StoryItem = ({avatar, name, createdAt, hasSeen=false,disableButton=false, onClick}:StoryItem & {disableButton?:boolean, onClick?:()=>void}) => {
+  const buttonClick = (e:React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    if(disableButton) return;
-    await ApiClient.get(`stories/user-stories/${_id}/get`)
-    .then((res) => {
-      const data = res.data.stories;
-      const properties: StoryViewProperties = {
-        authorId: _id,
-        name,
-        avatar,
-        seenStories: data.seenStories,
-        contents: data.contents,
-        position: data.position
-      }
-      setStoryViewProperties(properties);
-    })
-    .catch((err) => {
-      console.log(err)
-    });
-
+    if(disableButton || !onClick) return;
+    onClick()
   }
+
   return (
-    <button onClick={viewContent} className="w-full flex items-center gap-[10px] px-2 py-2 rounded-xl hover:bg-light dark:hover:bg-dark-netral cursor-pointer">
+    <button onClick={buttonClick} className="w-full flex items-center gap-[10px] px-2 py-2 rounded-xl hover:bg-light dark:hover:bg-dark-netral cursor-pointer">
       <div className={`w-fit p-[2px] rounded-full border-2 ${!hasSeen ? "border-primary":"border-gray-300"}`}>
         <RoundedImage src={avatar} alt="heading" className="!w-[42px]" />
       </div>

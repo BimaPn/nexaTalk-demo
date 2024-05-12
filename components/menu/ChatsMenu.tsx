@@ -13,6 +13,7 @@ import StoriesIcon from '../icons/StoriesIcon'
 import StartNewChat from '../StartNewChat'
 import { useChatLists } from '../providers/ChatListProvider'
 import { useAuth } from '../providers/AuthProvider'
+import { StoriesMenuTrigger } from './StoriesMenu'
 
 const ChatsMenu = ({className}:{className ?: string}) => {
   const pathname = usePathname();
@@ -62,7 +63,9 @@ const MenuNavbar = ({avatar, className}:{avatar:string, className?:string}) => {
         <h1 className="font-bold text-[21px]">UChat</h1>
       </div>
       <div className="flexCenter gap-[14px]">
+        <StoriesMenuTrigger> 
           <StoriesIcon width={22} />
+        </StoriesMenuTrigger>
         <ChatMenuDropdown avatar={avatar} /> 
       </div>  
 
