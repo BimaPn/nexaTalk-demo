@@ -15,7 +15,7 @@ type MediaPreview = {
   url:string
 }
 
-const AddStory = () => {
+const AddStory = ({children, className}:{children: React.ReactNode, className?: string}) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const [ media, setMedia ] = useState<File|null>(null);
   const [ mediaPreview, setMediaPreview ] = useState<MediaPreview>({type:"",url:""});
@@ -50,16 +50,16 @@ const AddStory = () => {
       onChange={onInputChange} 
       className="hidden"
       />
-      <button onClick={openFile} className="w-9 aspect-square flexCenter">
-        <TbCameraPlus className="text-2xl"  />
-      </button>
+        <button onClick={openFile} className={className}>
+          {children}
+        </button>
       <FormContent media={media} mediaPreview={mediaPreview} onFinished={() => cleaningStates()}/> 
     </Modal>
   )
 }
 
 const FormContent = ({media, mediaPreview, onFinished}:{media: File|null, mediaPreview:MediaPreview, onFinished:()=>void}) => {
-  const { updateUserStory } = useStories()
+  // const { updateUserStory } = useStories()
   const { showModal, toggleModal } = useContext(modalContext) as ModalProvider;
   const [caption, setCaption] = useState<string>("");
   const [isDisabled, setIsDisabled] = useState<boolean>(false);

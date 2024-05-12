@@ -36,7 +36,7 @@ const StoryViewer = ({children, onClose}:{children:React.ReactNode, onClose:(use
 
 const Contents = ({onClose, storyViewProperties}:{onClose:()=>void, storyViewProperties:StoryViewProperties}) => {
   const { ispaused, setIspaused, duration, setDuration } = useContext(storyViewerContext) as StoryViewer;
-  const [current, setCurrent] = useState<number>(storyViewProperties.position);
+  const [current, setCurrent] = useState<number>(storyViewProperties.position === (storyViewProperties.contents.length-1) ? 0 : storyViewProperties.position);
   const nextButtonRef = useRef<HTMLButtonElement>(null);
   const [Timer, setTimer] = useState<TimeoutSlider | null>(null);
 

@@ -8,6 +8,7 @@ import StoryViewer, { storyViewerContext } from "../StoryViewer"
 import StoryListSkeleton from "../skeletons/StoryListSkeleton"
 import { dateToTime } from "@/lib/converter"
 import { useStories } from "../providers/StoriesProvider"
+import { authUser } from "@/contants/users"
 
 const StoriesMenu = () => {
   const { changeMenu } = useContext(menuContext) as MenuProvider;
@@ -15,7 +16,9 @@ const StoriesMenu = () => {
     <MenuLayout>
       <Navigation title="Stories" onClose={() => changeMenu("chatsMenu")}>
         <div className="flex justify-end">
-          <AddStory /> 
+          <AddStory className="w-9 aspect-square flexCenter"> 
+            <TbCameraPlus className="text-2xl"  />
+          </AddStory> 
         </div>
       </Navigation>
 
@@ -27,9 +30,9 @@ const StoriesMenu = () => {
 }
 
 const StoryItemLayout = () => {
-  const { stories, userStory, updateUserStory, isContentLoaded, setIsContentLoaded } = useStories()
+  const { stories, getUserStory, isContentLoaded, setIsContentLoaded } = useStories()
   const { setStoryViewProperties } = useContext(storyViewerContext) as StoryViewer;
-
+  const userStory = getUserStory()
   useEffect(() => {
     setIsContentLoaded(true)
   },[])
@@ -37,26 +40,27 @@ const StoryItemLayout = () => {
   const viewContent = async (storyView: StoryViewProperties) => {
     setStoryViewProperties(storyView);
   }
-  // const updateStoryItem = (id: string, hasSeen: boolean) => {
-  //   setStories((prevStories: StoryItem[]) => {
-  //     return prevStories.map((story) => {
-  //       if(story._id == id) {
-  //         story.hasSeen = hasSeen;
-  //       }
-  //       return story;
-  //     });
-  //   });
-  // }
   return (
       <div className="px-2 mb-2">
-        {!isContentLoaded ? <StoryListSkeleton /> : (
-          <StoryItem
+        {userStory === null ? (
+          <AddStory className="w-full flex items-center gap-[10px] px-2 py-2 rounded-xl hover:bg-light dark:hover:bg-dark-netral cursor-pointer"> 
+            <div className={`w-fit p-[2px] rounded-full border-2 border-gray-300`}>
+              <RoundedImage src={authUser.avatar} alt="heading" className="!w-[42px]" />
+            </div>
+            <div className="w-full text-start flex flex-col">
+              <span className="text-black dark:text-white font-medium">{authUser.name}</span>
+              <span className="text-[13px] text-gray-500 dark:text-slate-400">No update</span>
+            </div>
+          </AddStory>
+        ):(
+         <StoryItem 
           avatar={userStory.avatar}
           name={userStory.name}
-          createdAt={userStory.createdAt}
-          hasSeen={true}
-          disableButton={userStory.createdAt === "No update"}/>
-        )}
+          createdAt={dateToTime(userStory.contents[userStory.contents.length-1].createdAt)}
+          hasSeen={(userStory.contents.length - 1) === userStory.position}
+          onClick={() => viewContent(userStory)}
+          />
+        )}  
         <div className="mt-1">
           <span className="inline-block text-black dark:text-white text-sm font-medium mx-2">Friends</span>
           <ul className="flex flex-col gap-[2px]">
