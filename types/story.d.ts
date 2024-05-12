@@ -4,6 +4,7 @@ interface StoriesContext {
   setIsContentLoaded: Dispatch<SetStateAction<boolean>>,
   updateLastSeen: (username: string, position: number) => void
   getUserStory: () => StoryViewProperties | null
+  addStoryItem: (story:StoryViewProperties) => void
 }
 interface StoryItem {
   avatar: string,
@@ -26,8 +27,7 @@ interface StoryViewProperties {
   position: number
 }
 interface StoryContent {
-  id: string
-  media: string,
+  media: Media,
   caption?: string
   createdAt: string
 }

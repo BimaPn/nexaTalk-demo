@@ -9,6 +9,7 @@ import TextAreaExpand from "./ui/form/TextAreaExpand"
 import { IoSend } from "react-icons/io5"
 import { dateToTime } from "@/lib/converter"
 import { useStories } from "./providers/StoriesProvider"
+import { authUser } from "@/contants/users"
 
 type MediaPreview = {
   type:string,
@@ -17,29 +18,25 @@ type MediaPreview = {
 
 const AddStory = ({children, className}:{children: React.ReactNode, className?: string}) => {
   const inputRef = useRef<HTMLInputElement>(null);
-  const [ media, setMedia ] = useState<File|null>(null);
-  const [ mediaPreview, setMediaPreview ] = useState<MediaPreview>({type:"",url:""});
+  const [ mediaPreview, setMediaPreview ] = useState<Media | null>(null);
 
   const onInputChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
     const selectedFile = inputRef.current!.files![0];
     if (!selectedFile) return;
-
-    setMedia(selectedFile)
     const blob = URL.createObjectURL(selectedFile);
     if(selectedFile.type.startsWith("video")) {
-      setMediaPreview({ type:"video", url:blob })
+      setMediaPreview({ type:"video", src:blob })
       return;
     }
-    setMediaPreview({type:"image", url: blob});
+    setMediaPreview({type:"image", src: blob});
   }
   const openFile = (e:React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
       inputRef.current?.click()
   }
   const cleaningStates = () => {
-    setMedia(null);
-    setMediaPreview({type:"",url:""});
+    setMediaPreview(null);
   }
   return (
     <Modal>
@@ -53,44 +50,42 @@ const AddStory = ({children, className}:{children: React.ReactNode, className?: 
         <button onClick={openFile} className={className}>
           {children}
         </button>
-      <FormContent media={media} mediaPreview={mediaPreview} onFinished={() => cleaningStates()}/> 
+      <FormContent media={mediaPreview} onFinished={() => cleaningStates()}/> 
     </Modal>
   )
 }
 
-const FormContent = ({media, mediaPreview, onFinished}:{media: File|null, mediaPreview:MediaPreview, onFinished:()=>void}) => {
-  // const { updateUserStory } = useStories()
+const FormContent = ({media, onFinished}:{media: Media|null, onFinished:()=>void}) => {
   const { showModal, toggleModal } = useContext(modalContext) as ModalProvider;
+  const { addStoryItem } = useStories()
   const [caption, setCaption] = useState<string>("");
-  const [isDisabled, setIsDisabled] = useState<boolean>(false);
 
   useEffect(() => {
-    if(mediaPreview.url.length !== 0) {
+    if(media) {
       toggleModal();
     }
-  },[mediaPreview]);
+  },[media]);
   
   const onSubmit = async (e:React.FormEvent<HTMLFormElement>) => {
-    // if(!storiesSocket) return
     e.preventDefault();
-    // setIsDisabled(true);
-    // await ApiClient.post("stories/add",{media, caption}, {
-    // headers: {
-    // 'Content-Type': 'multipart/form-data'
-    // }})
-    // .then((res) => {
-    //   const createdAt = res.data.story.createdAt;
-    //   updateUserStory(dateToTime(createdAt));
-    //   storiesSocket.emit("newStory",createdAt);
-    //   toggleModal();
-    //   onFinished();
-    //   setIsDisabled(false);
-    // })
-    // .catch((err) => {
-    //   setIsDisabled(false);
-    // });
+    const newStory: StoryViewProperties = {
+      username: authUser.username,
+      name: authUser.name,
+      avatar: authUser.avatar,
+      contents: [
+        {
+          media: media as Media,
+          caption: caption, 
+          createdAt: new Date().toLocaleString()
+        }
+      ],
+      position: 0 
+    }
+    addStoryItem(newStory)
+    toggleModal();
+    onFinished();
   }
-  return (showModal && mediaPreview.url.length != 0) && (
+  return (showModal && media) && (
     <form onSubmit={onSubmit}>
       <Content width={480} className="relative overflow-hidden">
         <Header className="absolute top-0 left-0 right-0">
@@ -101,10 +96,10 @@ const FormContent = ({media, mediaPreview, onFinished}:{media: File|null, mediaP
           </div>
         </Header>
         <Body className="flexCenter h-full">
-          {mediaPreview.type == "video" ? (
-           <ReactPlayer url={mediaPreview.url} className="max-w-full max-h-full" controls/>
+          {media.type == "video" ? (
+           <ReactPlayer url={media.src} className="max-w-full max-h-full" controls/>
           ) : (
-            <Image src={mediaPreview.url} alt="image preview" width={500} height={500}className="w-auto max-h-full block"/>
+            <Image src={media.src} alt="image preview" width={500} height={500}className="w-auto max-h-full block"/>
           )} 
         </Body>
         <Footer className="absolute bottom-0 left-0 right-0 flexCenter gap-3 px-3 pb-5 pt-16">
@@ -116,7 +111,7 @@ const FormContent = ({media, mediaPreview, onFinished}:{media: File|null, mediaP
             rows={1}
             placeholder="Type a caption" />
           </div>  
-        <button disabled={isDisabled} type="submit" className="w-10 flexCenter aspect-square rounded-full bg-white dark:bg-dark-netral dark:border-0 border">
+        <button type="submit" className="w-10 flexCenter aspect-square rounded-full bg-white dark:bg-dark-netral dark:border-0 border">
           <IoSend className="text-[18px] text-primary -mr-[3px]"/>
         </button>
         </Footer>

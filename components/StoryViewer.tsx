@@ -111,7 +111,7 @@ const Contents = ({onClose, storyViewProperties}:{onClose:()=>void, storyViewPro
       />
       <ContentBody
       username={storyViewProperties.username}
-      mediaUrl={storyViewProperties.contents[current == -1 ? 0 : current].media}
+      media={storyViewProperties.contents[current == -1 ? 0 : current].media}
       current={current}>
        <div className="hidden ss:block text-white">
         <button 
@@ -181,20 +181,20 @@ const ContentHeader = ({length, current, avatar, name, createdAt, ispaused, dura
 
 type ContentBodyT = {
   children: React.ReactNode, 
-  mediaUrl: string,
+  media: Media,
   current: number,
   username: string
   }
-const ContentBody = ({children, mediaUrl, current, username}:ContentBodyT) => {
+const ContentBody = ({children, media, current, username}:ContentBodyT) => {
   return (
     <div className="max-w-[512px] h-full flexCenter relative z-[0]">
-      <Media mediaUrl={mediaUrl} current={current} username={username}/>
+      <Media media={media} current={current} username={username}/>
       {children}
     </div>
   )
 }
 
-const Media = ({mediaUrl, current, username}:{mediaUrl:string,current:number,username:string}) => {
+const Media = ({media, current, username}:{media:Media,current:number,username:string}) => {
   const {ispaused, setIspaused, duration, setDuration} = useContext(storyViewerContext) as StoryViewer;
   const { updateLastSeen } = useStories()
   const updateSeenStory = async () => {
@@ -220,17 +220,18 @@ const Media = ({mediaUrl, current, username}:{mediaUrl:string,current:number,use
         <LoadingSpinner className="!w-12 !h-12" />
       </div>
     )}
-    {mediaUrl.includes(".mp4") ? (
+    {media.type === "video" && (
        <ReactPlayer
-       url={mediaUrl}
+       url={media.src}
        className="max-w-full w-auto h-fit"
        playing={!ispaused}
        onDuration={videoLoaded}
        />
-    ) : (
+    )}
+    {media.type === "image" && (
       <div className="max-w-full w-auto h-fit">
         <Image
-        src={mediaUrl}
+        src={media.src}
         width={800} height={800}
         alt="media"
         onLoad={() => imageLoaded()} />

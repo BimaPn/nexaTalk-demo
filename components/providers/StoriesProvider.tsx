@@ -10,12 +10,20 @@ const StoriesProvider = ({children}:{children:React.ReactNode}) => {
 
   const [isContentLoaded, setIsContentLoaded] = useState<boolean>(false);
   
-  // const addStoryItem = (story:StoryItem) => {
-  //   setStories((prev) => {
-  //     const filtered = prev.filter((item) => item._id !== story._id);
-  //     return [story, ...filtered];
-  //   })
-  // }
+  const addStoryItem = (story:StoryViewProperties) => {
+    setStories((prev) => {
+      const isExit = prev.find((item) => item.username === story.username)
+      if(!isExit) {
+        return [...prev, story]
+      }
+      return prev.map((item) => {
+        if(item.username === story.username) {
+          item.contents.push(story.contents[0])
+        }
+        return item
+      }) 
+    })
+  }
   const getUserStory = () => {
     const result = stories.find((story) => story.username === authUser.username)
     if(!result) {
@@ -40,7 +48,8 @@ const StoriesProvider = ({children}:{children:React.ReactNode}) => {
       isContentLoaded,
       setIsContentLoaded,
       updateLastSeen,
-      getUserStory
+      getUserStory,
+      addStoryItem
       }}>
     {children}
     </storiesContext.Provider>

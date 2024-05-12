@@ -67,7 +67,7 @@ const StoryItemLayout = () => {
             {!isContentLoaded && <StoryListSkeleton count={4} />}
             {(isContentLoaded && stories.length != 0) && 
               stories.map((item, index) => (
-                <li key={index}>
+                <li key={index} className={`${item.username === authUser.username ? "hidden":"block"}`}>
                   <StoryItem 
                   avatar={item.avatar}
                   name={item.name}
