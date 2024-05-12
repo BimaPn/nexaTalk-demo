@@ -17,7 +17,7 @@ export const authUser: User = {
     },
     {
       type: "accepted",
-      username: "john_henry"
+      username: "jacob_owens"
     },
   ]
 }
@@ -27,7 +27,7 @@ export const users: User[] = [
     name: "Bima PN",
     username: 'bimapn',
     email: 'bimaptr12@gmail.com',
-    bio: 'I dont know too.',
+    bio: 'I want to have a peaceful life ...',
     avatar: '/images/users/bima_pn.jpg',
     isOnline: true,
     joinedAt: "12-12-2022",
@@ -36,7 +36,7 @@ export const users: User[] = [
     name: "Clara Ashley",
     username: 'clara',
     email: 'clara33@gmail.com',
-    bio: 'I dont know too.',
+    bio: 'Roses are red, Violets are blue',
     avatar: '/images/users/clara.jpg',
     isOnline: false,
     joinedAt: "08-11-2023",
@@ -45,7 +45,7 @@ export const users: User[] = [
     name: "John Henry",
     username: 'john_henry',
     email: 'john_henry@gmail.com',
-    bio: 'I dont know too.',
+    bio: 'Who are you ? who am I ?',
     avatar: '/images/users/john.jpg',
     isOnline: false,
     joinedAt: "12-10-2024",
