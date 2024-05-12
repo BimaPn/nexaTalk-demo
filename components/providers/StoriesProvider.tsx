@@ -11,18 +11,18 @@ const StoriesProvider = ({children}:{children:React.ReactNode}) => {
   const [isContentLoaded, setIsContentLoaded] = useState<boolean>(false);
   
   const addStoryItem = (story:StoryViewProperties) => {
-    setStories((prev) => {
-      const isExit = prev.find((item) => item.username === story.username)
+      let index = 0
+      const isExit = stories.find((item, i) => {
+        index = i
+        return item.username === story.username
+      })
       if(!isExit) {
-        return [...prev, story]
+        setStories((prev) => [...prev, story])
+        return;
       }
-      return prev.map((item) => {
-        if(item.username === story.username) {
-          item.contents.push(story.contents[0])
-        }
-        return item
-      }) 
-    })
+      const result = [...stories]
+      result[index].contents.push(story.contents[0])
+      setStories(result)
   }
   const getUserStory = () => {
     const result = stories.find((story) => story.username === authUser.username)

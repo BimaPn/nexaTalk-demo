@@ -57,7 +57,7 @@ const StoryItemLayout = () => {
           avatar={userStory.avatar}
           name={userStory.name}
           createdAt={dateToTime(userStory.contents[userStory.contents.length-1].createdAt)}
-          hasSeen={(userStory.contents.length - 1) === userStory.position}
+          hasSeen={false}
           onClick={() => viewContent(userStory)}
           />
         )}  
