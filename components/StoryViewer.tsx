@@ -10,6 +10,7 @@ import ProgressBar from "./ProgressBar"
 import LoadingSpinner from "./ui/LoadingSpinner"
 import { dateToTime } from "@/lib/converter"
 import ExpandedText from "./ExpandedText"
+import { useStories } from "./providers/StoriesProvider"
 
 export const storyViewerContext = createContext<StoryViewer|null>(null);
 
@@ -19,9 +20,6 @@ const StoryViewer = ({children, onClose}:{children:React.ReactNode, onClose:(use
   const [duration, setDuration] = useState<number>(-1);
 
   const closeViewer = () => {
-    // if (seenStories) {
-    //   onClose(storyViewProperties!.authorId, !seenStories.includes(false));
-    // }
     setStoryViewProperties(null);
   }
   return (
@@ -112,7 +110,7 @@ const Contents = ({onClose, storyViewProperties}:{onClose:()=>void, storyViewPro
       onClose={() => closePage()}
       />
       <ContentBody
-      storyId={storyViewProperties.contents[current == -1 ? 0 : current].id}
+      username={storyViewProperties.username}
       mediaUrl={storyViewProperties.contents[current == -1 ? 0 : current].media}
       current={current}>
        <div className="hidden ss:block text-white">
@@ -137,8 +135,8 @@ const Contents = ({onClose, storyViewProperties}:{onClose:()=>void, storyViewPro
 
 const ContentFooter = ({caption}:{caption?:string}) => {
   return caption && (
-  <div className="absolute bottom-0 min-h-[12%] max-h-[40%] bg-black/50 w-[512px] mt-2 ss:mt-4 z-[1] flex justify-center py-2 overflow-y-auto">
-    <ExpandedText text={caption} maxLength={130} className="text-center" />
+  <div className="absolute bottom-0  min-h-[12%] max-h-[40%] bg-black/50 w-[512px] mt-2 ss:mt-4 z-[1] flex justify-center py-2 overflow-y-auto">
+    <ExpandedText text={caption} maxLength={130} className="text-center !text-white" />
   </div> 
   )
 }
@@ -185,31 +183,22 @@ type ContentBodyT = {
   children: React.ReactNode, 
   mediaUrl: string,
   current: number,
-  storyId: string
+  username: string
   }
-const ContentBody = ({children, mediaUrl, current, storyId}:ContentBodyT) => {
+const ContentBody = ({children, mediaUrl, current, username}:ContentBodyT) => {
   return (
     <div className="max-w-[512px] h-full flexCenter relative z-[0]">
-      <Media mediaUrl={mediaUrl} current={current} storyId={storyId}/>
+      <Media mediaUrl={mediaUrl} current={current} username={username}/>
       {children}
     </div>
   )
 }
 
-const Media = ({mediaUrl, current, storyId}:{mediaUrl:string,current:number,storyId:string}) => {
+const Media = ({mediaUrl, current, username}:{mediaUrl:string,current:number,username:string}) => {
   const {ispaused, setIspaused, duration, setDuration} = useContext(storyViewerContext) as StoryViewer;
- 
+  const { updateLastSeen } = useStories()
   const updateSeenStory = async () => {
-    // if(!seenStories || seenStories[current]) return;
-    // await ApiClient.post(`stories/${storyId}/seen`)
-    // .then((res) => {
-    //   let temp = seenStories;
-    //   temp[current] = true;
-    //   setSeenStories(temp);
-    // })
-    // .catch((err) => {
-    //   console.log(err.response)
-    // });
+    updateLastSeen(username, current) 
   }
   const videoLoaded = async (durr:number) => {
     await updateSeenStory();
@@ -221,7 +210,7 @@ const Media = ({mediaUrl, current, storyId}:{mediaUrl:string,current:number,stor
     }
   }
   const imageLoaded = async () => {
-    await updateSeenStory();
+    await updateSeenStory()
     setDuration(3);
   }
   return (

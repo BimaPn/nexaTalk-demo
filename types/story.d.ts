@@ -4,6 +4,7 @@ interface StoriesContext {
   updateUserStory: (createdAt:string)=>void,
   isContentLoaded: boolean,
   setIsContentLoaded: Dispatch<SetStateAction<boolean>>,
+  updateLastSeen: (username: string, position: number) => void
 }
 interface StoryItem {
   avatar: string,

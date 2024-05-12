@@ -24,13 +24,30 @@ const StoriesProvider = ({children}:{children:React.ReactNode}) => {
   const updateUserStory = (createdAt:string) => {
     setUserStory({...userStory, createdAt});
   }
+
+  const updateLastSeen = (username: string, position: number) => {
+    setStories((prev) => {
+      return prev.map((story) => {
+        if(story.username === username && story.position < position) {
+          if(position === (story.contents.length - 1)) {
+            story.position =  0 
+          }else {
+            story.position = position 
+          }
+        }
+        return story
+      })
+    })
+
+  }
   return (
     <storiesContext.Provider value={{
       stories,
       isContentLoaded,
       setIsContentLoaded,
       userStory, 
-      updateUserStory
+      updateUserStory,
+      updateLastSeen
       }}>
     {children}
     </storiesContext.Provider>
