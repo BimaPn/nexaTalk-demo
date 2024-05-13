@@ -30,21 +30,23 @@ const MessageContent = ({
       element.scrollTop = element.scrollHeight;
     }
   };
+
   useEffect(() => {
     if(target.username === "jacob_owens") clearUnreadCount(target.username)
   },[])
+
   useEffect(() => {
     const lastMessage = messages[messages.length-1]
-    addToChatList(lastMessage.media, lastMessage.message)
+    addToChatList(lastMessage.media, lastMessage.message, lastMessage.createdAt)
     scrollToBottom()
   },[messages])
 
-  const addToChatList = (media?: Media[], message?: string) => {
+  const addToChatList = (media?: Media[], message?: string, createdAt?: string) => {
     const newChatItem: ChatItem = {
       username: target.username,
       name: target.name,
       avatar: target.avatar,
-      createdAt: new Date().toLocaleString(),
+      createdAt: createdAt as string,
       media: media ? media[media.length-1] : null,
       message: message
     }
@@ -68,7 +70,7 @@ const MessageContent = ({
             {index > 0 && !compareDate(message.createdAt, messages[index-1].createdAt) && (
               <TimeBadge time={formatDate(message.createdAt, true)} />
             )}
-            <div className={`w-full flex ${message.sender === authUser.username ? "justify-end":"justify-start"}`}>
+            <div className={`w-full flex ${message.sender === authUser.username ? "justify-end":"justify-start"} ${index === messages.length-1 && "mb-2"}`}>
               {message.message && (
                 <UserMessage
                 id={message.id}

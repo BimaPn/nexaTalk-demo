@@ -8,12 +8,24 @@ const ChatListProvider = ({children}:{children:React.ReactNode}) => {
   const [chatlists, setChatlists] = useState<ChatItem[]>(chatLists);
   
   const addChatToList = (chat:ChatItem) => {
-    setChatlists((prev:ChatItem[]) => {
-      const newChatlists = chatlists.filter(item => {
-        return item.username !== chat.username;
-      });
-      return [chat,...newChatlists]
-    });
+    let index = 0
+    const item = chatlists.find((data, i) => {
+      index = i
+      return data.username === chat.username
+    })
+    if(!item) {
+      setChatlists([chat, ...chatlists])
+      return;
+    }
+    if(new Date(chat.createdAt) > new Date(chatlists[index].createdAt)) {
+      const filtered = chatlists.filter((data) => data.username !== chat.username)
+      setChatlists([chat, ...filtered])
+      return;
+    }
+
+    const result = [...chatlists] 
+    result[index] = chat
+    setChatlists(result)
   } 
   
   const clearUnreadCount = (targetId:string) => {

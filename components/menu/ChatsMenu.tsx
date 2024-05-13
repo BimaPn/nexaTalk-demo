@@ -23,7 +23,6 @@ const ChatsMenu = ({className}:{className ?: string}) => {
 
   useEffect(() => {
     setLoaded(true)
-    console.log(chatlists)
   },[])
 
   const onSearch = (query: string) => {
