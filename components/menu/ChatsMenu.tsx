@@ -20,13 +20,13 @@ const ChatsMenu = ({className}:{className ?: string}) => {
   const { auth } = useAuth()
   const { chatlists, searchChatList } = useChatLists()
   const [loaded, setLoaded] = useState(false)
-
+  const [search, setSearch] = useState("")
   useEffect(() => {
     setLoaded(true)
   },[])
 
   const onSearch = (query: string) => {
-    // setList(searchChatList(query))
+    setSearch(query)
   }
   return (  
     <MenuLayout className={`pt-3 pb-5 relative z-[0] px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
@@ -34,7 +34,9 @@ const ChatsMenu = ({className}:{className ?: string}) => {
       <Search onSearch={onSearch} />
         {loaded ? (
           <ul className="flex flex-col gap-1 mt-4">
-          {chatlists.map((chat) => (
+          {chatlists.map((chat) => {
+            const regex = new RegExp(search, 'i'); 
+            return regex.test(chat.name)  && (
             <Link key={chat.username} href={`/chat/${chat.username}`}>
               <ChatItem 
               name={chat.name}
@@ -47,7 +49,8 @@ const ChatsMenu = ({className}:{className ?: string}) => {
               createdAt={chat.createdAt}
               />
             </Link>
-          ))}
+          )
+          })}
           </ul>
         ):(
           <ChatMenuSkeleton />
