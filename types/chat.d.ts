@@ -5,7 +5,7 @@ interface ChatItem {
   message?:string | null
   media?: Media | null
   createdAt: string 
-  unread?:number | string
+  unread?: number
   isOnline?:boolean
 }
 

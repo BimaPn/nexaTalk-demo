@@ -17,12 +17,11 @@ const ChatListProvider = ({children}:{children:React.ReactNode}) => {
   } 
   
   const clearUnreadCount = (targetId:string) => {
-    setChatlists((prev:ChatItem[]) => {
-      return prev.map((item) => {
-        if(item.username === targetId) item.unread = undefined;
-        return item;
-      });
+    const temp = chatlists.map((item) => {
+      if(item.username === targetId) item.unread = undefined;
+      return item;
     });
+    setChatlists(temp);
   }
 
   const searchChatList = (query: string) => {

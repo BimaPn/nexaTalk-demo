@@ -1,11 +1,12 @@
-export const chatLists = [
+export const chatLists: ChatItem[] = [
   {
     name: "Jacob Owens",
     username: 'jacob_owens',
     avatar: '/images/users/jacob_owens.jpg',
     createdAt: new Date().toLocaleString(),
     message: "Thanks",
-    isOnline:true,
+    unread: 5,
+    isOnline: true
   },
   {
     name: "John Henry",
@@ -13,7 +14,6 @@ export const chatLists = [
     avatar: '/images/users/john.jpg',
     createdAt: "2024-05-02T10:15:04",
     message: "ok bro",
-    isOnline:false,
   },
   {
     name: "Bima PN",
@@ -21,7 +21,6 @@ export const chatLists = [
     avatar: '/images/users/bima_pn.jpg',
     createdAt: "2024-04-29T14:01:04",
     message: "anita max wynn 💅",
-    isOnline:false,
   },
   {
     name: "Naura Monroe",
@@ -29,7 +28,6 @@ export const chatLists = [
     avatar: '/images/users/naura_monroe.jpg',
     createdAt: "2024-04-25T21:31:04",
     message: "Hi",
-    isOnline:false,
   },
 ]
 

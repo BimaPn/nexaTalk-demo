@@ -17,7 +17,7 @@ const MessageContent = ({
     target: User 
   }) => {
   const messagesContainer = useRef<HTMLDivElement>(null) 
-  const { addChatToList } = useChatLists()
+  const { addChatToList, clearUnreadCount } = useChatLists()
   const [ConfirmDialog, confirm] = useConfirm({
     label: "Are you sure you want to delete this message ?"
   })
@@ -30,6 +30,9 @@ const MessageContent = ({
       element.scrollTop = element.scrollHeight;
     }
   };
+  useEffect(() => {
+    if(target.username === "jacob_owens") clearUnreadCount(target.username)
+  },[])
   useEffect(() => {
     const lastMessage = messages[messages.length-1]
     addToChatList(lastMessage.media, lastMessage.message)
