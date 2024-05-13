@@ -36,12 +36,6 @@ const ChatListProvider = ({children}:{children:React.ReactNode}) => {
     setChatlists(temp);
   }
 
-  const searchChatList = (query: string) => {
-    const regex = new RegExp(query, 'i'); 
-    return chatlists.filter(chat => {
-      return regex.test(chat.name) || (chat.message && regex.test(chat.message))
-    });
-  }
   const deleteChat = (username: string) => {
     setChatlists((list) => {
       const filtered = list.filter((chat) => chat.username !== username)
@@ -55,7 +49,6 @@ const ChatListProvider = ({children}:{children:React.ReactNode}) => {
     setChatlists,
     addChatToList,
     clearUnreadCount,
-    searchChatList,
     deleteChat
     }}
     >
