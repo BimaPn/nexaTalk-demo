@@ -8,6 +8,7 @@ type MessageProvider = {
   getUserMessages: (username: string) => UserMessage[]
   addMessage: (message: UserMessage) => void
   deleteMessage: (messageId: string) => void
+  updateMessage: (message: UserMessage) => void
   deleteAllUserMessages: (username: string) => void
   getUserMedia: (username: string) => UserMessage[] 
   getUserMediaPreview: (username: string) => MediaPreview | null
@@ -22,9 +23,17 @@ const MessageProvider = ({children}:{children:React.ReactNode}) => {
     return messages.filter((message) =>  ((message.sender === username && message.receiver === authUser.username) ||
    (message.sender === authUser.username && message.receiver === username)))
   }
-
   const addMessage = (message: UserMessage) => {
     setMessages((prev) => [...prev, message])
+  }
+  const updateMessage = (message: UserMessage) => {
+    const result = messages.map((msg) => {
+      if(msg.id === message.id) {
+        msg = message
+      }
+      return msg
+    })
+    setMessages(result)
   }
   const deleteMessage = (messageId: string) => {
     setMessages((prev) => {
@@ -79,6 +88,7 @@ const MessageProvider = ({children}:{children:React.ReactNode}) => {
       messages,
       getUserMessages,
       addMessage,
+      updateMessage,
       deleteMessage,
       deleteAllUserMessages,
       getUserMedia,

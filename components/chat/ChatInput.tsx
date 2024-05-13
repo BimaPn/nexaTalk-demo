@@ -10,19 +10,21 @@ import MediaInput, { Previews, Trigger } from "../ui/form/MediaInput"
 import PickEmoji from "../PickEmoji"
 import { authUser } from "@/contants/users"
 import { useMessages } from "../providers/MessageProvider"
-import { useChatLists } from "../providers/ChatListProvider"
 
-const ChatInput = ({target, className}:{target: User, className?:string}) => {
-  const { addMessage } = useMessages()
-  const { addChatToList } = useChatLists()
-  const [messageInput,setMessageInput] = useState<string>("");
+const ChatInput = ({target, defaultMessage, onSubmit, className}:{target: string,defaultMessage?: UserMessage, onSubmit?:()=>void, className?:string}) => {
+  const { addMessage, updateMessage } = useMessages()
+  const [messageInput,setMessageInput] = useState<string>(defaultMessage?.message ?? "");
   const [media,setMedia] = useState<Media[]>([]);
   const submitButton = useRef<HTMLButtonElement>(null);
   
   const handleSubmit = async (e:React.FormEvent) => {
     e.preventDefault();
-    addToChatList()
-    _addMessage()
+    if(defaultMessage) {
+      _updateMessage()
+      if(onSubmit) onSubmit()
+    }else {
+      _addMessage()
+    }
   }
 
   const _addMessage = () => {
@@ -30,7 +32,7 @@ const ChatInput = ({target, className}:{target: User, className?:string}) => {
       id: `${Date.now()}-${Math.round(Math.random())}`,
       createdAt: new Date().toLocaleString(),
       sender: authUser.username,
-      receiver: target.username 
+      receiver: target 
     }
     if(media.length > 0) {
       addMessage({...newMessage, media})
@@ -41,17 +43,15 @@ const ChatInput = ({target, className}:{target: User, className?:string}) => {
       setMessageInput("")
     }
   }
-
-  const addToChatList = () => {
-    const newChatItem: ChatItem = {
-      username: target.username,
-      name: target.name,
-      avatar: target.avatar,
-      createdAt: new Date().toLocaleString(),
-      media: media.length > 0 ? media[media.length-1] : null,
-      message: messageInput.length > 0 ? messageInput : null
+  const _updateMessage = () => {
+    const updatedMessage: UserMessage = {
+      id: defaultMessage!.id,
+      createdAt: defaultMessage!.createdAt,
+      sender: defaultMessage!.sender,
+      receiver: defaultMessage!.receiver,
+      message: messageInput
     }
-    addChatToList(newChatItem)
+    updateMessage(updatedMessage)
   }
 
   const onChange = (e:React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -68,10 +68,11 @@ const ChatInput = ({target, className}:{target: User, className?:string}) => {
         onChange={(results) => setMedia(results)}
         className="flex justify-center items-end gap-[6px] sm:gap-3"
         >
-          <Trigger className="min-w-[39px] aspect-square rounded-full bg-white dark:bg-dark-semiDark  flexCenter shadow group">
-            <ImAttachment className="px-1 aspect-square text-dark dark:text-slate-400 dark:group-hover:text-white text-[26px]" />      
-          </Trigger>
-
+          {!defaultMessage && (
+            <Trigger className="min-w-[39px] aspect-square rounded-full bg-white dark:bg-dark-semiDark  flexCenter shadow group">
+              <ImAttachment className="px-1 aspect-square text-dark dark:text-slate-400 dark:group-hover:text-white text-[26px]" />      
+            </Trigger>
+          )}
           <div className="w-full flex flex-col gap-3">
             <Previews />
             <div className="w-full flex items-center gap-2 bg-white dark:bg-dark-semiDark rounded-full px-3 py-[2px] shadow">
@@ -88,7 +89,7 @@ const ChatInput = ({target, className}:{target: User, className?:string}) => {
                 placeholder="Type something..." />
               </div>
               {(messageInput.length !== 0 || media.length !== 0) && (
-              <button type="submit" ref={submitButton}>
+              <button type="submit" disabled={defaultMessage && (messageInput.length < 1)} ref={submitButton}>
                 <IoSend className="text-[19px] text-primary"/>
               </button>
               )}
