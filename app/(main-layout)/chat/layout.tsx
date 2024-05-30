@@ -4,8 +4,8 @@ import MenuProvider from '@/components/providers/MenuProvider'
 import StoriesProvider from '@/components/providers/StoriesProvider'
 
 export const metadata: Metadata = {
-  title: 'Chat',
-  description: 'Chat',
+  title: 'NexaTalk',
+  description: 'NexaTalk Application',
 }
 
 export default async function RootLayout({

@@ -12,6 +12,7 @@ import { useMessages } from "../providers/MessageProvider"
 import useConfirm from "../ui/Confirm"
 import { useChatLists } from "../providers/ChatListProvider"
 import { useRouter } from "next-nprogress-bar"
+import BackButton from "../BackButton"
 
 type ChatHeaderT = {
   username:string,
@@ -44,21 +45,25 @@ const ChatHeader = ({username,avatar,name,isOnline}:ChatHeaderT) => {
   return (
     <div className="w-full py-2 sm:py-[9px]">
       <div className="flex items-center justify-between px-4">
-        <div className="flex items-center gap-3">
-          <div onClick={openProfileInfo}>
-            <UserAvatar
-            avatar={avatar}
-            alt={name}
-            isOnline={isOnline}
-            className="!w-10"/> 
-          </div>
-          <div className="flex flex-col leading-5">
-            <span onClick={openProfileInfo} className="text-black text-[15px] sm:text-base dark:text-white cursor-pointer">{name}</span>
-            {isOnline ? (
-              <span className="text-[12px] text-netral dark:text-slate-400">Online</span>
-            ) : null}
+        <div className="flex items-center gap-2">
+          <BackButton className="block sm:hidden" />
+          <div className="flex items-center gap-3">
+            <div onClick={openProfileInfo}>
+              <UserAvatar
+              avatar={avatar}
+              alt={name}
+              isOnline={isOnline}
+              className="!w-10"/> 
+            </div>
+            <div className="flex flex-col leading-5">
+              <span onClick={openProfileInfo} className="text-black text-[15px] sm:text-base dark:text-white cursor-pointer">{name}</span>
+              {isOnline ? (
+                <span className="text-[12px] text-netral dark:text-slate-400">Online</span>
+              ) : null}
+            </div>
           </div>
         </div>
+
         <div className="relative z-[2]">
           <ChatSettings username={username} onDelete={deleteAll} /> 
         </div>

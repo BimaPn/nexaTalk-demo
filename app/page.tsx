@@ -1,11 +1,5 @@
-import MainLayout from '@/layouts/MainLayout'
-import Image from 'next/image'
+import { redirect } from 'next/navigation';
 
-export default function Home() {
-
-  return (
-    <>
-    <div>haha</div>
-    </> 
-  )
+export default async function Home() {
+    redirect('/chat');
 }

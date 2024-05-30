@@ -21,7 +21,7 @@ const UserMessage = ({
 }) => {
   return (
     <div className={`w-full flex group ${isCurrentUser ? "justify-end":"justify-start "} ${className}`}>
-      <div className={`max-w-[40%] w-fit flex flex-col gap-1 ${isCurrentUser ? "items-start":"items-end"}`}>
+      <div className={`max-w-[90%] md:max-w-[40%] w-fit flex flex-col gap-1 ${isCurrentUser ? "items-start":"items-end"}`}>
         <div className={`w-full relative`}>
           {isCurrentUser && (
             <div className="absolute top-[2px] -left-5 block sm:hidden sm:group-hover:block">

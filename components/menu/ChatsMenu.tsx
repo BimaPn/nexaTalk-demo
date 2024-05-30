@@ -18,7 +18,7 @@ import { StoriesMenuTrigger } from './StoriesMenu'
 const ChatsMenu = ({className}:{className ?: string}) => {
   const pathname = usePathname();
   const { auth } = useAuth()
-  const { chatlists, searchChatList } = useChatLists()
+  const { chatlists } = useChatLists()
   const [loaded, setLoaded] = useState(false)
   const [search, setSearch] = useState("")
   useEffect(() => {
@@ -29,7 +29,7 @@ const ChatsMenu = ({className}:{className ?: string}) => {
     setSearch(query)
   }
   return (  
-    <MenuLayout className={`pt-3 pb-5 relative z-[0] px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
+    <MenuLayout className={`pt-3 pb-5 relative z-[0] px-1 ss:px-2 ${pathname !== "/chat" && "hidden sm:block"}`}>
       <MenuNavbar avatar={auth.avatar} className="sticky top-0 z-[1400] mb-3 mx-1"/> 
       <Search onSearch={onSearch} />
         {loaded ? (
@@ -63,9 +63,8 @@ const ChatsMenu = ({className}:{className ?: string}) => {
 const MenuNavbar = ({avatar, className}:{avatar:string, className?:string}) => {
   return (
     <div className={`flexBetween py-1 px-2 ${className}`}>
-      <div className="flexCenter gap-[5px] text-black dark:text-white">
-        <AiOutlineWechat className="text-3xl" />
-        <h1 className="font-bold text-[21px]">UChat</h1>
+      <div className="flexCenter gap-[5px] text-primary dark:text-white">
+        <h1 className="font-bold text-[22px]">NexaTalk</h1>
       </div>
       <div className="flexCenter gap-[14px]">
         <StoriesMenuTrigger> 

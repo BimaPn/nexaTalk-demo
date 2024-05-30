@@ -13,7 +13,7 @@ const PickEmoji = ({onEmojiClick}:{onEmojiClick:(emoji: string)=>void}) => {
       <Dropdown.Trigger>
         <GrEmoji className="text-[22.5px] text-slate-500 dark:text-slate-400 dark:group-hover:text-white stroke-[.4px]" />      
       </Dropdown.Trigger>
-      <Dropdown.Content showFromBottom={false} className="bottom-14 left-24">
+      <Dropdown.Content showFromBottom={false} className="bottom-14 left-5 ss:left-24">
         <EmojiPicker onEmojiClick={(emojiObject) => onEmojiClick(emojiObject.emoji)} theme={resolvedTheme as any}/>
       </Dropdown.Content>
     </Dropdown>

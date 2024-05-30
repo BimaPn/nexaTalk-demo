@@ -21,7 +21,7 @@ const MediaMessage = ({
 }) => {
   return (
     <div className={`w-full flex flex-col group ${isCurrentUser ? "items-end":"items-start"}`}>
-      <div className={`w-48 sm:w-56 md:w-72 flex flex-col ${isCurrentUser ? "items-start" : "items-end"} gap-[6px]`}>
+      <div className={`w-[60%] sm:w-56 md:w-72 flex flex-col ${isCurrentUser ? "items-start" : "items-end"} gap-[6px]`}>
         <div className="w-full relative">
         {isCurrentUser && (
           <div className="absolute top-1 -left-5 block sm:hidden sm:group-hover:block">

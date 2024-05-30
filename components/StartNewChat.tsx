@@ -64,8 +64,8 @@ const ModalContent = () => {
         {(!users) && (
           <div className='h-[68%] flexCenter flex-col gap-4'>
             <div className='flexCenter flex-col gap-1'>
-            <span className='font-bold text-lg text-dark dark:text-white'>Let's Find Your Bestie !</span>
-            <span className='text-sm text-semiDark dark:text-slate-300'>Find some to start chat with i dont know bro.</span>
+            <span className='font-bold text-lg text-dark dark:text-white'>Let's Find Your New Friend !</span>
+            <span className='text-sm text-semiDark dark:text-slate-300'>Find other to start a new chat with them.</span>
             </div>
             <NewChat />
           </div>
