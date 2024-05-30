@@ -33,9 +33,9 @@ const ChatHeader = ({username,avatar,name,isOnline}:ChatHeaderT) => {
   const deleteAll = async () => {
     const isTrue = await confirm() 
     if(isTrue) {
+      router.push('/chat')
       deleteAllUserMessages(username)
       deleteChat(username)
-      router.push('/chat')
     }
   }
   const openProfileInfo = (e:React.MouseEvent) => {

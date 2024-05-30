@@ -11,8 +11,10 @@ import AuthProvider from "@/components/providers/AuthProvider"
 
 const roboto = Roboto({ 
   weight: ['400', '500', '700'],
-  subsets: ['latin'] }
-  )
+  subsets: ['latin'] ,
+  display: "swap"
+  }
+)
 
 export const metadata: Metadata = {
   title: 'Chat App',

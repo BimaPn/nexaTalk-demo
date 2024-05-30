@@ -6,7 +6,6 @@ import ChatItem from "../ui/ChatItem"
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
 import ChatMenuDropdown from '../ui/ChatMenuDropdown'
-import { AiOutlineWechat } from "react-icons/ai"
 import ChatMenuSkeleton from '../skeletons/ChatMenuSkeleton'
 import { BiSolidMessageDetail } from "react-icons/bi"
 import StoriesIcon from '../icons/StoriesIcon'

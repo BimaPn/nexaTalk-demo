@@ -43,9 +43,8 @@ const MessageProvider = ({children}:{children:React.ReactNode}) => {
   }
   const deleteAllUserMessages = (username: string) => {
     setMessages((prev) => {
-      const filtered = prev.filter((message) =>  !(((message.sender === username && message.receiver === authUser.username) ||
+      return prev.filter((message) =>  !(((message.sender === username && message.receiver === authUser.username) ||
      (message.sender === authUser.username && message.receiver === username))))
-      return filtered 
     })
   }
 

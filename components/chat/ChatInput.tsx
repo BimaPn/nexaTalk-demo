@@ -10,9 +10,11 @@ import MediaInput, { Previews, Trigger } from "../ui/form/MediaInput"
 import PickEmoji from "../PickEmoji"
 import { authUser } from "@/contants/users"
 import { useMessages } from "../providers/MessageProvider"
+import { useChatLists } from "../providers/ChatListProvider"
 
-const ChatInput = ({target, defaultMessage, onSubmit, className}:{target: string,defaultMessage?: UserMessage, onSubmit?:()=>void, className?:string}) => {
+const ChatInput = ({target, defaultMessage, onSubmit, className}:{target: User,defaultMessage?: UserMessage, onSubmit?:()=>void, className?:string}) => {
   const { addMessage, updateMessage } = useMessages()
+  const { addChatToList } = useChatLists()
   const [messageInput,setMessageInput] = useState<string>(defaultMessage?.message ?? "");
   const [media,setMedia] = useState<Media[]>([]);
   const submitButton = useRef<HTMLButtonElement>(null);
@@ -24,24 +26,38 @@ const ChatInput = ({target, defaultMessage, onSubmit, className}:{target: string
       if(onSubmit) onSubmit()
     }else {
       _addMessage()
+
     }
   }
-
   const _addMessage = () => {
     const newMessage: UserMessage = {
       id: `${Date.now()}-${Math.round(Math.random())}`,
       createdAt: new Date().toLocaleString(),
       sender: authUser.username,
-      receiver: target 
+      receiver: target.username
     }
     if(media.length > 0) {
       addMessage({...newMessage, media})
+      addToChatList(media, undefined, newMessage.createdAt)
       setMedia([])
     }
     if(messageInput.length > 0) {
       addMessage({...newMessage, message: messageInput})
+      addToChatList(undefined, messageInput, newMessage.createdAt)
       setMessageInput("")
     }
+
+  }
+  const addToChatList = (media?: Media[], message?: string, createdAt?: string) => {
+    const newChatItem: ChatItem = {
+      username: target.username,
+      name: target.name,
+      avatar: target.avatar,
+      createdAt: createdAt as string,
+      media: media ? media[media.length-1] : null,
+      message: message
+    }
+    addChatToList(newChatItem)
   }
   const _updateMessage = () => {
     const updatedMessage: UserMessage = {

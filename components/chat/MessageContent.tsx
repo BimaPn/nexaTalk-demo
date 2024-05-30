@@ -1,3 +1,4 @@
+"use client"
 import { useEffect, useRef, forwardRef, useState } from 'react'
 import UserMessage from '../ui/message/UserMessage'
 import MediaMessage from '../ui/message/MediaMessage'
@@ -17,7 +18,7 @@ const MessageContent = ({
     target: User 
   }) => {
   const messagesContainer = useRef<HTMLDivElement>(null) 
-  const { addChatToList, clearUnreadCount } = useChatLists()
+  const { clearUnreadCount } = useChatLists()
   const [ConfirmDialog, confirm] = useConfirm({
     label: "Are you sure you want to delete this message ?"
   })
@@ -37,21 +38,10 @@ const MessageContent = ({
 
   useEffect(() => {
     const lastMessage = messages[messages.length-1]
-    addToChatList(lastMessage.media, lastMessage.message, lastMessage.createdAt)
+    // addToChatList(lastMessage.media, lastMessage.message, lastMessage.createdAt)
     scrollToBottom()
   },[messages])
 
-  const addToChatList = (media?: Media[], message?: string, createdAt?: string) => {
-    const newChatItem: ChatItem = {
-      username: target.username,
-      name: target.name,
-      avatar: target.avatar,
-      createdAt: createdAt as string,
-      media: media ? media[media.length-1] : null,
-      message: message
-    }
-    addChatToList(newChatItem)
-  }
 
   const ondeleteMessage = async (messageId: string) => {
     const isTrue = await confirm() 
@@ -101,7 +91,7 @@ const MessageContent = ({
         </div>
 
         <ChatInput 
-        target={target.username}
+        target={target}
         defaultMessage={update}
         onSubmit={() => setUpdate(null)}
         />

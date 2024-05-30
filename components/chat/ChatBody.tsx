@@ -17,7 +17,7 @@ const ChatBody = ({userTarget}:ChatBodyT) => {
       /> 
       <div className="w-full">
         <ChatInput 
-        target={userTarget.username}
+        target={userTarget}
         />
       </div>
     </div>
