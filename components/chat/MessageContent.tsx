@@ -38,7 +38,6 @@ const MessageContent = ({
 
   useEffect(() => {
     const lastMessage = messages[messages.length-1]
-    // addToChatList(lastMessage.media, lastMessage.message, lastMessage.createdAt)
     scrollToBottom()
   },[messages])
 
@@ -104,7 +103,7 @@ const MessageContent = ({
 
 const TimeBadge = ({time}:{time:string}) => {
   return (
-    <div className="flexCenter mb-1">
+    <div className="flexCenter mb-3">
       <div className="bg-white dark:bg-dark-semiDark px-3 py-1 rounded-full text-xs">
         {time} 
       </div>

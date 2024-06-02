@@ -253,8 +253,8 @@ const StoryControl = () => {
   const { ispaused, setIspaused } = useContext(storyViewerContext) as StoryViewer;
   return ( 
   <button className="text-white -mr-[2px]" onClick={() => setIspaused((prev:boolean) => !prev)}> 
-    {ispaused && <IoIosPause className="text-[22px]" />}
-    {!ispaused && <IoPlay className="text-[21px]" />}
+    {!ispaused && <IoIosPause className="text-[22px]" />}
+    {ispaused && <IoPlay className="text-[21px]" />}
   </button>
   )
 }
