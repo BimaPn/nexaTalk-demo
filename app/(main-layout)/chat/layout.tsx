@@ -14,7 +14,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <section className='flex sm:gap-4 h-screen p-0 overflow-hidden sm:px-4 sm:py-4'>
+    <section className='flex sm:gap-4 h-dvh p-0 overflow-hidden sm:px-4 sm:py-4'>
       <MenuProvider>
           <StoriesProvider>
             <MainMenu/>

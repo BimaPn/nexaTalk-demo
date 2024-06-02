@@ -34,9 +34,14 @@ export class TimeoutSlider {
 }
 
 export const getVideoThumbnail = (videoUrl:string, callback:(thumbnail:string)=>void) => {
-  const video = document.createElement('video');
+    const video = document.createElement('video');
   video.crossOrigin = 'anonymous';
-  video.addEventListener('loadeddata', function() {
+  
+  video.addEventListener('loadedmetadata', function() {
+    video.currentTime = 0.5;
+  });
+  
+  video.addEventListener('canplay', function() {
     const canvas = document.createElement('canvas');
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
@@ -50,6 +55,7 @@ export const getVideoThumbnail = (videoUrl:string, callback:(thumbnail:string)=>
     video.remove();
     canvas.remove();
   });
+
   video.addEventListener('error', function() {
     console.error("Failed to load video");
     video.remove();

@@ -44,12 +44,12 @@ const ModalContent = () => {
     setUsers(searchUsers(query))
   },[query])
   return (
-    <Content width={450} className='sm:!h-[80%]'>
+    <Content width={420} className='sm:!h-[80%]'>
       <Header>
         <ModalHeader />
       </Header>
-      <Body className='px-4 pt-4'>
-        <div className='relative px-3'>
+      <Body className='px-4 pt-2'>
+        <div className='relative px-1'>
           <TextInput
           type='text'
           value={query}
@@ -57,7 +57,7 @@ const ModalContent = () => {
           className="dark:text-white !pl-10"
           placeholder='Search User'
           />
-          <div className='h-full aspect-square absolute top-0 left-3 flexCenter dark:peer-focus:text-white peer-focus:text-dark text-gray-400 dark:text-gray-300'>
+          <div className='h-full aspect-square absolute top-0 left-1 flexCenter dark:peer-focus:text-white peer-focus:text-dark text-gray-400 dark:text-gray-300'>
             <FiSearch className="text-[21px]" />
           </div>
         </div>
@@ -75,7 +75,7 @@ const ModalContent = () => {
         )}
 
         {(users && users?.length >= 0) && (
-          <div className='flex flex-col gap-[6px] mt-6'>
+          <div className='flex flex-col gap-[6px] mt-3'>
             {users.map((user) => (
               <UserItem 
               key={user.username}
@@ -95,7 +95,7 @@ export const UserItem = ({name, username, bio, avatar}:UserItem) => {
   const { toggleModal } = useContext(modalContext) as ModalProvider;
   return (
     <Link onClick={() => toggleModal()} href={`/chat/${username}`} className="flex items-center gap-[10px] p-2 rounded-xl hover:bg-light dark:hover:bg-dark-netral">
-      <RoundedImage src={avatar} alt="user" />
+      <RoundedImage src={avatar} className='!min-w-11' alt="user" />
         <div className='flex flex-col'>
           <span className="text-black dark:text-white">{name}</span>
           <span className={`text-[15px] text-semiDark dark:text-slate-400 line-clamp-1`}>{bio}</span>

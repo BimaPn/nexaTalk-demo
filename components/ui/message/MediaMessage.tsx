@@ -95,8 +95,8 @@ const VideoThumbnail = ({ url, single }:{ url:string, single:boolean }) => {
 
   useEffect(() => {
     getVideoThumbnail(url, setThumbnail);
-  },[]);
-  return thumbnail && (
+  },[url]);
+  return thumbnail.length > 0 && (
     <>
       <MediaView single={single} url={thumbnail} />  
       <div className="w-10 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 aspect-square bg-black/75 rounded-full flexCenter">

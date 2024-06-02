@@ -76,9 +76,9 @@ const ChatInput = ({target, defaultMessage, onSubmit, className}:{target: User,d
   }
 
   return (
-    <div className={`w-full flexCenter px-2 sm:px-3 pb-3 bg-light dark:bg-dark-dark ${className}`}>
+    <div className={`w-full flexCenter px-2 sm:px-3 pb-3 bg-semiLight dark:bg-dark-dark ${className}`}>
 
-      <form className="w-full" onSubmit={handleSubmit} >
+      <form className="w-full overflow-hidden" onSubmit={handleSubmit} >
         <MediaInput
         value={media}
         onChange={(results) => setMedia(results)}
@@ -111,9 +111,9 @@ const ChatInput = ({target, defaultMessage, onSubmit, className}:{target: User,d
               )}
             </div>
           </div>
-          <div className="min-w-[39px] aspect-square rounded-full bg-white dark:bg-dark-semiDark flexCenter shadow group">
+          <button onClick={() => alert("This feature has not been implemented yet.")} className="min-w-[39px] aspect-square rounded-full bg-white dark:bg-dark-semiDark flexCenter shadow group">
             <MdOutlineKeyboardVoice className="text-2xl text-dark dark:text-slate-400 dark:group-hover:text-white" />      
-          </div>
+          </button>
         </MediaInput>
       </form> 
     </div>

@@ -6,28 +6,6 @@ import { IoClose } from "react-icons/io5";
 const mediaInputContext = createContext<MediaInputContext | null>(null);
 
 const MediaInput = ({children, value, className, onChange}:MediaInput) => {
-
-  //
-  // const renderMedia = async (mediaFiles: File[]) => {
-  //   const media = await Promise.all(
-  //     mediaFiles.map(async (file) => {
-  //       if (file.type === "video/mp4") {
-  //
-  //       console.log(URL.createObjectURL(file))
-  //         return new Promise<string>((resolve) => {
-  //           getLocalVideoThumbnail(file, (url) => {
-  //             resolve(url);
-  //           });
-  //         });
-  //       }
-  //
-  //       return URL.createObjectURL(file);
-  //     })
-  //   );
-  //
-  //   setMediaPreviews(media);
-  // };
-
   const removeMedia = (index:number) => {
     onChange(value.filter(content => value.indexOf(content) !== index));
   }
@@ -106,9 +84,9 @@ const MediaPreview = ({media, onRemove, className}:{media: Media, onRemove:()=>v
     onRemove();
   }
  return (
-  <div className={`relative ${className}`}>
+  <div className={`relative min-w-24 ${className}`}>
     {media.type === "image" ? (
-      <div className="relative h-fit aspect-square w-[60px] sm:w-20 md:w-36">
+      <div className="relative h-fit aspect-square w-full">
         <Image
         src={media.src}
         alt={media.type}
@@ -117,7 +95,7 @@ const MediaPreview = ({media, onRemove, className}:{media: Media, onRemove:()=>v
         /> 
       </div>
       ):(
-      <div className="flexCenter w-[60px] sm:w-20 md:w-36 aspect-square overflow-hidden rounded-xl bg-black">
+      <div className="flexCenter w-full aspect-square overflow-hidden rounded-xl bg-black">
          <video className="w-full h-fit" controls autoPlay muted>
          <source src={media.src} />
          </video>

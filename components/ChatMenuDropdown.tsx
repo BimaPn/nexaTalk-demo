@@ -1,11 +1,10 @@
-import Dropdown from './Dropdown'
-import RoundedImage from './RoundedImage'
 import { IoLogOut } from 'react-icons/io5'
 import { IoIosSettings } from "react-icons/io"
 import { GoQuestion } from "react-icons/go"
 import { useContext } from 'react'
-import { MenuProvider, menuContext } from '../providers/MenuProvider'
-import LogoutButton from './form/LogoutButton'
+import { MenuProvider, menuContext } from './providers/MenuProvider'
+import Dropdown from './ui/Dropdown'
+import RoundedImage from './ui/RoundedImage'
 
 const ChatMenuDropdown = ({avatar}:{avatar:string}) => {
   const { changeMenu } = useContext(menuContext) as MenuProvider;
@@ -29,14 +28,14 @@ const ChatMenuDropdown = ({avatar}:{avatar:string}) => {
         </div>
         Settings
       </button>
-      <LogoutButton className={itemClass}>
+      <button onClick={() => alert("Cannot logout, you're in demo version.")} className={itemClass}>
         <div className={iconClass}>
           <IoLogOut className="text-[19px] -mr-[3px]" />
         </div>
         <span>
           Logout
         </span>
-      </LogoutButton>
+      </button>
     </div> 
     </Dropdown.Content>
     </Dropdown>

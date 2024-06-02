@@ -66,7 +66,7 @@ const Friends = () => {
           ))}
           </div>
           <div>
-            <IoIosArrowForward className="text-[15px]" />
+          <IoIosArrowForward className="text-[15px]" />
           </div>
         </div>
       </div>

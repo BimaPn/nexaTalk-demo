@@ -57,7 +57,8 @@ export const Content = ({children, width, onClose, className}:ModalContent) => {
       <div
       onClick={(e) => e.stopPropagation()}
       style={{
-        width
+        width,
+        maxWidth: width
       }}
       className={`h-full sm:h-[95%] md:h-[90%] bg-white dark:bg-dark-semiDark rounded-none sm:rounded-xl flex flex-col ${className}`}>
         {children}

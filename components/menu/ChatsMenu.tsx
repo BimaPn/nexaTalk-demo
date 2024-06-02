@@ -32,7 +32,7 @@ const ChatsMenu = ({className}:{className ?: string}) => {
       <MenuNavbar avatar={auth.avatar} className="sticky top-0 z-[1400] mb-3 mx-1"/> 
       <Search onSearch={onSearch} />
         {loaded ? (
-          <ul className="flex flex-col gap-1 mt-4">
+          <ul className="flex flex-col gap-1 mt-3">
           {chatlists.map((chat) => {
             const regex = new RegExp(search, 'i'); 
             return regex.test(chat.name)  && (

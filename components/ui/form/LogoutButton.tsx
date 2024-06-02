@@ -5,6 +5,7 @@ const LogoutButton = ({className,children,...props}:ButtonHTMLAttributes<HTMLBut
   const router = useRouter()
   const logout = (e:React.MouseEvent<HTMLButtonElement>) => {
       e.preventDefault();
+      alert("Cannot logout, you're in demo version.")
   }
   return (
      <button 

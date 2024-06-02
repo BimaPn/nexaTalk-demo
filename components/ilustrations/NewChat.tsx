@@ -1,5 +1,5 @@
 
-const NewChat = ({width=364, className}:{width?:number, className?:string}) => {
+const NewChat = ({width=342, className}:{width?:number, className?:string}) => {
   return (
 <svg width={width} className={className} viewBox="0 0 529 319" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M528.8 318.501C528.8 318.641 410.41 318.761 264.41 318.761C118.41 318.761 0 318.641 0 318.501C0 318.361 118.4 318.241 264.4 318.241C410.4 318.241 528.8 318.351 528.8 318.501Z" fill="#263238"/>

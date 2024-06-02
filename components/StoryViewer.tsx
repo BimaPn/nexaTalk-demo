@@ -1,9 +1,9 @@
 "use client"
 import { createContext, useContext, useEffect, useRef, useState } from "react"
 import RoundedImage from "./ui/RoundedImage"
-import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io"
+import { IoIosArrowBack, IoIosArrowForward, IoIosPause } from "react-icons/io"
 import Image from "next/image"
-import { IoClose } from "react-icons/io5"
+import { IoClose, IoPlay } from "react-icons/io5"
 import ReactPlayer from "react-player/lazy"
 import { TimeoutSlider } from "@/helpers"
 import ProgressBar from "./ProgressBar"
@@ -21,6 +21,8 @@ const StoryViewer = ({children, onClose}:{children:React.ReactNode, onClose:(use
 
   const closeViewer = () => {
     setStoryViewProperties(null);
+    setDuration(-1)
+    setIspaused(true)
   }
   return (
     <storyViewerContext.Provider value={{ setStoryViewProperties, ispaused, setIspaused, duration, setDuration }}>
@@ -113,17 +115,17 @@ const Contents = ({onClose, storyViewProperties}:{onClose:()=>void, storyViewPro
       username={storyViewProperties.username}
       media={storyViewProperties.contents[current == -1 ? 0 : current].media}
       current={current}>
-       <div className="hidden ss:block text-white">
+       <div className="text-white">
         <button 
         onClick={onPrev} 
-        className="w-10 absolute left-2 aspect-square rounded-full bg-black/25 flexCenter">
-          <IoIosArrowBack className="text-[22px]" />
+        className="w-[20%] ss:w-10 h-[80dvh] ss:h-fit absolute left-0 ss:left-2 top-20 ss:top-auto aspect-square rounded-full ss:bg-black/25 flexCenter z-[10]">
+          <IoIosArrowBack className="text-[22px] hidden ss:block" />
         </button>   
         <button
         ref={nextButtonRef} 
         onClick={onNext}
-        className="w-10 absolute right-2 aspect-square rounded-full bg-black/25 flexCenter">
-          <IoIosArrowForward className="text-[22px]" />
+        className="w-[20%] ss:w-10 h-[80dvh] ss:h-fit absolute right-0 ss:right-2 top-20 ss:top-auto aspect-square rounded-full ss:bg-black/25 flexCenter z-[10]">
+          <IoIosArrowForward className="text-[22px] hidden ss:block" />
         </button>   
        </div>
       </ContentBody> 
@@ -171,9 +173,14 @@ const ContentHeader = ({length, current, avatar, name, createdAt, ispaused, dura
             <span className="text-[13px]">{dateToTime(createdAt)}</span>
           </div>
         </div>
-        <button onClick={() => onClose()} className="px-1 mx-3 ss:-mr-1 ss:-mt-1 aspect-square">
-          <IoClose className="text-2xl text-white" />
-        </button>
+
+        <div className="flex items-center"> 
+          <StoryControl />
+          <button onClick={() => onClose()} className="px-1 mx-3 ss:-mr-1 ss:-mt-1 aspect-square">
+            <IoClose className="text-2xl text-white" />
+          </button>
+        </div>
+
       </div>
     </div>
   )
@@ -186,8 +193,9 @@ type ContentBodyT = {
   username: string
   }
 const ContentBody = ({children, media, current, username}:ContentBodyT) => {
+  const { setIspaused } = useContext(storyViewerContext) as StoryViewer;
   return (
-    <div className="max-w-[512px] h-full flexCenter relative z-[0]">
+    <div onClick={() => setIspaused((prev:boolean) => !prev)} className="max-w-[512px] h-full flexCenter">
       <Media media={media} current={current} username={username}/>
       {children}
     </div>
@@ -223,7 +231,7 @@ const Media = ({media, current, username}:{media:Media,current:number,username:s
     {media.type === "video" && (
        <ReactPlayer
        url={media.src}
-       className="max-w-full w-auto h-fit"
+       className="max-w-full w-auto h-fit !z-[0]"
        playing={!ispaused}
        onDuration={videoLoaded}
        />
@@ -238,6 +246,16 @@ const Media = ({media, current, username}:{media:Media,current:number,username:s
       </div>
     )}
     </>
+  )
+}
+
+const StoryControl = () => {
+  const { ispaused, setIspaused } = useContext(storyViewerContext) as StoryViewer;
+  return ( 
+  <button className="text-white -mr-[2px]" onClick={() => setIspaused((prev:boolean) => !prev)}> 
+    {ispaused && <IoIosPause className="text-[22px]" />}
+    {!ispaused && <IoPlay className="text-[21px]" />}
+  </button>
   )
 }
 export default StoryViewer

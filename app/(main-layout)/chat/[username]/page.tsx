@@ -10,7 +10,7 @@ const page = ({params}:{params : {username:string}}) => {
   const { findUser } = useUsers()
   const [user, setUser] = useState(findUser(params.username))
   return user && (
-  <div className="w-full h-full flex z-0 gap-4">
+  <div className="max-w-dvw w-dvw h-full flex z-0 gap-4">
     <ChatSection
     userTarget={user} 
     />
